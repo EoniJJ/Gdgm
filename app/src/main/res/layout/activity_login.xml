@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_login_vertical_margin"
+    android:paddingLeft="@dimen/activity_login_horizontal_margin"
+    android:paddingRight="@dimen/activity_login_horizontal_margin"
+    android:paddingTop="@dimen/activity_login_vertical_margin"
+    tools:context=".ui.LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo_school"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_school" />
+
+    <ImageView
+        android:id="@+id/logo_jw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:src="@drawable/logo_jw" />
+
+    <EditText
+        android:id="@+id/editText_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_shape"
+        android:drawableLeft="@drawable/user"
+        android:drawablePadding="30dp"
+        android:hint="用户名"
+        android:singleLine="true"
+        android:textColorHint="#95A1AA" />
+
+    <EditText
+        android:id="@+id/editText_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_shape"
+        android:drawableLeft="@drawable/password"
+        android:drawablePadding="30dp"
+        android:hint="密码"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textColorHint="#95A1AA" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editText_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_shape"
+            android:drawableLeft="@drawable/check_code"
+            android:drawablePadding="30dp"
+            android:hint="验证码"
+            android:maxLength="4"
+            android:singleLine="true"
+            android:textColorHint="#95A1AA" />
+
+        <ImageView
+            android:id="@+id/imageView_code"
+            android:layout_width="72dp"
+            android:layout_height="25dp"
+            android:scaleType="fitXY"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/code_error"
+            android:layout_marginRight="60dp" />
+
+        <TextView
+            android:id="@+id/textView_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:text="看不清？\n点击刷新" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="身份："
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/spinner_identity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"></Spinner>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:background="#6ab8f4"
+        android:text="登录"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+</LinearLayout>
