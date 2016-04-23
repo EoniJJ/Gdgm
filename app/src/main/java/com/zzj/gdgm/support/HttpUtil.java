@@ -8,6 +8,13 @@ import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
+import java.io.IOException;
+
+import cz.msebera.android.httpclient.NoHttpResponseException;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.HttpRequestRetryHandler;
+import cz.msebera.android.httpclient.protocol.HttpContext;
+
 /**
  * Created by J。 on 2016/4/18.
  */

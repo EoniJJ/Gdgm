@@ -16,6 +16,8 @@ import java.util.Map;
  * Created by J。 on 2016/4/18.
  */
 public class JsoupService {
+    private static final String TAG = "JsoupService";
+
     public static String isLogin(String content) {
         Document document = Jsoup.parse(content, "gb2312");
         Elements elements = document.select("span#xhxm");
@@ -33,6 +35,7 @@ public class JsoupService {
         Elements elements = document.select("script");
         try {
             Element element = elements.get(1);
+            Log.d(TAG, "  element.data -->>>" + element.data().split("'")[1]);
             return element.data().split("'")[1];
         } catch (Exception e) {
             e.printStackTrace();

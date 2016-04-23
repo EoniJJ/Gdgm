@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,15 +19,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.zzj.gdgm.R;
-import com.zzj.gdgm.support.HttpUtil;
 import com.zzj.gdgm.support.JsoupService;
+import com.zzj.gdgm.support.OkHttpUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
-import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editText_username;
@@ -35,16 +40,26 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textView_code;
     private Spinner spinner;
     private Button button_login;
-
+    private Handler handler;
     private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.obj != null && msg.obj instanceof Bitmap) {
+                    Bitmap bitmap = (Bitmap) msg.obj;
+                    imageView_code.setImageBitmap(bitmap);
+                } else if (msg.obj != null && msg.obj instanceof String) {
+                    Toast.makeText(LoginActivity.this, (String) msg.obj, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
         initView();
         //初始化cookie
-        HttpUtil.initCookie(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[]{"部门", "教师", "学生", "访客"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spinner.setAdapter(adapter);
@@ -86,19 +101,26 @@ public class LoginActivity extends AppCompatActivity {
      * 请求验证码
      */
     private void getCheckCode() {
-        HttpUtil.get(HttpUtil.getUrlCode(), new AsyncHttpResponseHandler() {
+        Request request = OkHttpUtil.getRequest(OkHttpUtil.getUrlCode());
+        OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(responseBody);
-                Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
-                imageView_code.setImageBitmap(bitmap);
-                Log.v(TAG, "getUrlCode --> onSuccess --> statusCode = " + statusCode);
+            public void onFailure(Call call, IOException e) {
+                Message message = Message.obtain();
+                message.obj = BitmapFactory.decodeResource(getResources(), R.drawable.code_error);
+                handler.sendMessage(message);
+                Log.d(TAG, "getCheckCode -->>> onFailure -->>>" + e.getMessage());
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                imageView_code.setImageResource(R.drawable.code_error);
-                Log.v(TAG, "getUrlCode --> onFailure --> statusCode = " + statusCode);
+            public void onResponse(Call call, Response response) throws IOException {
+                Message message = Message.obtain();
+                if (response.code() == 200) {
+                    message.obj = BitmapFactory.decodeStream(response.body().byteStream());
+                } else {
+                    message.obj = BitmapFactory.decodeResource(getResources(), R.drawable.code_error);
+                }
+                handler.sendMessage(message);
+                Log.d(TAG, " getCheckCode -->>> onResponse --> response.code -->" + response.code());
             }
         });
     }
@@ -116,50 +138,69 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "验证码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        HttpUtil.setTextBox1(editText_username.getText().toString().trim());
-        HttpUtil.setTextBox2(editText_password.getText().toString().trim());
-        HttpUtil.setTextBox3(editText_code.getText().toString().trim());
-        HttpUtil.setRadioButtonList1(spinner.getSelectedItem().toString());
-        Log.v(TAG, "TextBox1 = " + HttpUtil.getTextBox1() + "\t TextBox2 = " + HttpUtil.getTextBox2() + "\t TextBox3 = " + HttpUtil.getTextBox3() + "\t RadioButtonList1 = " + HttpUtil.getRadioButtonList1());
+        RequestBody requestBody = new FormBody.Builder()
+                .add("__VIEWSTATE", "dDw3OTkxMjIwNTU7Oz5dolJKJHgqmp4fsn9ciB2avGIU+w==")
+                .add("__VIEWSTATEGENERATOR", "92719903")
+                .add("TextBox1", editText_username.getText().toString().trim())
+                .add("TextBox2", editText_password.getText().toString().trim())
+                .add("TextBox3", editText_code.getText().toString().toString())
+                .add("RadioButtonList1", spinner.getSelectedItem().toString())
+                .add("Button1", "")
+                .build();
+        Log.d(TAG, "requestBody -->\nTextBox1:" + editText_username.getText().toString().trim()
+                + "\nTextBox2 :" + editText_password.getText().toString().trim()
+                + "\nTextBox3 :" + editText_code.getText().toString().toString()
+                + "\nRadioButtonList1 : " + spinner.getSelectedItem().toString());
+        Request request = OkHttpUtil.getRequest(OkHttpUtil.getUrlLogin(), requestBody);
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("正在登录....");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        HttpUtil.getAsyncHttpClient().get(HttpUtil.getUrlLogin(), HttpUtil.getRequestParams(), new AsyncHttpResponseHandler() {
+        OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            public void onFailure(Call call, IOException e) {
+                Message message = Message.obtain();
+                message.obj = "登录失败,请检查网络";
+                handler.sendMessage(message);
+                Log.d(TAG, " login -->>> onFailure --> " + e.getMessage());
+                progressDialog.dismiss();
+                getCheckCode();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    String content = new String(responseBody, "gb2312");
-                    Log.v(TAG, "getUrlLogin -->  onSuccess --> statusCode" + statusCode);
-                    if (JsoupService.isLogin(content) != null) {
-                        Intent intent = new Intent();
-                        intent.putExtra("content",content);
-                        intent.setClass(LoginActivity.this, MainActivity.class);
-                        LoginActivity.this.startActivity(intent);
-                        LoginActivity.this.finish();
-                        Log.v(TAG, "getUrlLogin --> onSuccess --> " + JsoupService.isLogin(content));
-                    } else if (JsoupService.getLoginErrorMessage(content) != null) {
-                        Toast.makeText(LoginActivity.this, JsoupService.getLoginErrorMessage(content), Toast.LENGTH_SHORT).show();
-                        Log.v(TAG, "getUrlLogin --> onSuccess -->" + JsoupService.getLoginErrorMessage(content));
-                        getCheckCode();
+                    Message message = Message.obtain();
+                    if (response.code() == 200) {
+                        String content = new String(response.body().bytes(), "gb2312");
+                        if (JsoupService.isLogin(content) != null) {
+                            Intent intent = new Intent();
+                            intent.putExtra("content", content);
+                            intent.setClass(LoginActivity.this, MainActivity.class);
+                            LoginActivity.this.startActivity(intent);
+                            LoginActivity.this.finish();
+                            Log.v(TAG, "getUrlLogin --> onSuccess --> " + JsoupService.isLogin(content));
+                        } else if (JsoupService.getLoginErrorMessage(content) != null) {
+                            message.obj = JsoupService.getLoginErrorMessage(content);
+                            handler.sendMessage(message);
+                            Log.v(TAG, "getUrlLogin --> onSuccess -->" + JsoupService.getLoginErrorMessage(content));
+                            getCheckCode();
+                        } else {
+                            message.obj = "登陆失败";
+                            handler.sendMessage(message);
+                            getCheckCode();
+                        }
                     } else {
-                        Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
+                        message.obj = "登陆失败,请检查网络";
+                        handler.sendMessage(message);
                         getCheckCode();
                     }
-                } catch (UnsupportedEncodingException e) {
+                    Log.d(TAG, " login -->>> onResponse --> response.code -->" + response.code());
+                } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
                     progressDialog.dismiss();
                 }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.v(TAG, "getUrlLogin --> onFailure --> statusCode " + statusCode);
-                progressDialog.dismiss();
-                Toast.makeText(LoginActivity.this, "登录失败,请检查网络是否可用", Toast.LENGTH_SHORT).show();
-                getCheckCode();
             }
         });
     }
