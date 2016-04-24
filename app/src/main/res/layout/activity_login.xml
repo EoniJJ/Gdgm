@@ -66,10 +66,10 @@
             android:id="@+id/imageView_code"
             android:layout_width="72dp"
             android:layout_height="25dp"
-            android:scaleType="fitXY"
             android:layout_gravity="right|center_vertical"
-            android:src="@drawable/code_error"
-            android:layout_marginRight="60dp" />
+            android:layout_marginRight="60dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/code_error" />
 
         <TextView
             android:id="@+id/textView_code"
@@ -84,6 +84,13 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/checkBox_rememberPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:text="记住密码" />
 
         <TextView
             android:layout_width="wrap_content"

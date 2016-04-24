@@ -14,10 +14,17 @@ import java.util.Map;
 
 /**
  * Created by J。 on 2016/4/18.
+ * 封装好的Jsoup工具类
  */
 public class JsoupService {
     private static final String TAG = "JsoupService";
 
+    /**
+     * 判断是否登录成功
+     *
+     * @param content 网页html源码
+     * @return 若返回值为null，则表示登陆失败。
+     */
     public static String isLogin(String content) {
         Document document = Jsoup.parse(content, "gb2312");
         Elements elements = document.select("span#xhxm");
@@ -30,6 +37,12 @@ public class JsoupService {
         return null;
     }
 
+    /**
+     * 获取登录失败后的提示信息
+     *
+     * @param content 网页html源码
+     * @return 返回登录失败后的提示信息
+     */
     public static String getLoginErrorMessage(String content) {
         Document document = Jsoup.parse(content);
         Elements elements = document.select("script");
@@ -43,6 +56,12 @@ public class JsoupService {
         return null;
     }
 
+    /**
+     * 解析menu菜单以获得子菜单的url
+     *
+     * @param content 网页html源码
+     * @return 返回一个Map集合类, key为子菜单的title，value为url
+     */
     public static Map<String, String> parseMenu(String content) {
         Map<String, String> map = new HashMap<>();
         Document document = Jsoup.parse(content);
@@ -53,9 +72,16 @@ public class JsoupService {
         return map;
     }
 
+    /**
+     * 获取并解析课程表
+     *
+     * @param content 网页Html源码
+     * @return 返回一个存储课表的二维String数组
+     */
     public static String[][] getCourse(String content) {
         Document document = Jsoup.parse(content);
         Elements elements = document.select("table#Table6.blacktab tr");
+        //移除无效的数据
         elements.remove(0);
         elements.remove(0);
         elements.remove(1);
@@ -72,17 +98,11 @@ public class JsoupService {
             } else {
                 elements1.remove(0);
             }
-           /* Log.d("JsoupService", " -->>> i =" + i + "elements1.size = " + elements1.size());*/
             for (int j = 0; j < elements1.size(); j++) {
                 String text = elements1.get(j).text().replace("<br>", "\n").replace("&nbsp;", "");
                 course[i][j] = text;
             }
         }
-     /*   for (int i = 0; i < course.length; i++) {
-            for (int j = 0; j < course[i].length; j++) {
-                Log.d("JsoupService", "-->>>" + course[i][j]);
-            }
-        }*/
         return course;
     }
 }

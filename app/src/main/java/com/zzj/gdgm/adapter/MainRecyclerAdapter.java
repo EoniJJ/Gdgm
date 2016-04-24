@@ -1,30 +1,32 @@
 package com.zzj.gdgm.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.zzj.gdgm.R;
-import com.zzj.gdgm.support.HttpUtil;
-import com.zzj.gdgm.support.JsoupService;
-import com.zzj.gdgm.support.MyApplication;
+import com.zzj.gdgm.support.OkHttpUtil;
 import com.zzj.gdgm.ui.CourseActivity;
 import com.zzj.gdgm.view.SimpleItemHolder;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
+import java.io.IOException;
 import java.util.Map;
 
-import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by J。 on 2016/4/18.
+ * MainActivity的Recycler适配器
  */
 public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
@@ -32,9 +34,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context context;
     private LayoutInflater layoutInflater;
     private Map<String, String> linkMap;
+    private Handler handler;
 
-    public MainRecyclerAdapter(Context context) {
+    public MainRecyclerAdapter(Context context, Handler handler) {
         this.context = context;
+        this.handler = handler;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -92,33 +96,50 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int tag = (int) v.getTag();
         switch (tag) {
             case 0:
+                final ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setMessage("正在读取数据....");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 for (String key : linkMap.keySet()) {
                     Log.d(TAG, "linkMap --> key = " + key + " --> value = " + linkMap.get(key));
                 }
-                HttpUtil.get(HttpUtil.getREFERER() + linkMap.get("班级课表查询"), new AsyncHttpResponseHandler() {
+                Request request = OkHttpUtil.getRequest(OkHttpUtil.getREFERER() + linkMap.get("班级课表查询"));
+                OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = null;
+                    public void onFailure(Call call, IOException e) {
+                        Message message = Message.obtain();
+                        message.obj = "获取数据失败";
+                        handler.sendMessage(message);
+                        Log.v(TAG, "班级课表查询  onFailure -->  = " + e.getMessage());
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Message message = Message.obtain();
                         try {
-                            response = new String(responseBody, "gb2312");
-                            Intent intent = new Intent();
-                            intent.setClass(context, CourseActivity.class);
-                            intent.putExtra("response", response);
-                            context.startActivity(intent);
-                        } catch (UnsupportedEncodingException e) {
+                            if (response.code() == 200) {
+                                String content = new String(response.body().bytes(), "gb2312");
+                                if (content != null) {
+                                    Intent intent = new Intent();
+                                    intent.setClass(context, CourseActivity.class);
+                                    intent.putExtra("content", content);
+                                    context.startActivity(intent);
+                                }
+                            } else {
+                                message.obj = "获取数据失败";
+                                handler.sendMessage(message);
+                            }
+                            Log.v(TAG, "班级课表查询  onResponse -->  statuscode = " + response.code());
+                        } catch (IOException e) {
+                            message.obj = "获取数据失败";
+                            handler.sendMessage(message);
                             e.printStackTrace();
                         } finally {
-                            Log.v(TAG, "班级课表查询 onSuccess --> statusCode = " + statusCode);
-                            Log.v(TAG, "班级课表查询 onSuccess --> response = " + response);
+                            progressDialog.dismiss();
                         }
                     }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Log.v(TAG, "班级课表查询  onFailure --> statusCode = " + statusCode);
-                    }
                 });
-
                 break;
             case 1:
 

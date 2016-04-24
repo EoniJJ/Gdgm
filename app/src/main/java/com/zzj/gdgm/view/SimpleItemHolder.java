@@ -9,11 +9,13 @@ import com.zzj.gdgm.R;
 
 /**
  * Created by J。 on 2016/4/19.
+ * 主界面RecyclerView 的Item
  */
 public class SimpleItemHolder extends RecyclerView.ViewHolder {
     private TextView textView_title;
     private ImageView imageView_titleImage;
     private TextView textView_content;
+
     public SimpleItemHolder(View itemView) {
         super(itemView);
         this.textView_title = (TextView) itemView.findViewById(R.id.textView_title);

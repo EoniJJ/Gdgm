@@ -1,7 +1,9 @@
 package com.zzj.gdgm.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -32,14 +35,31 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 登录Activity
+ */
 public class LoginActivity extends AppCompatActivity {
+    /**
+     * 用户名
+     */
     private EditText editText_username;
+    /**
+     * 密码
+     */
     private EditText editText_password;
+    /**
+     * 验证码输入框
+     */
     private EditText editText_code;
+    /**
+     * 验证码图片
+     */
     private ImageView imageView_code;
     private TextView textView_code;
     private Spinner spinner;
     private Button button_login;
+    private CheckBox checkBox_remember;
+    private SharedPreferences sharedPreferences;
     private Handler handler;
     private static final String TAG = "LoginActivity";
 
@@ -58,12 +78,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
+        sharedPreferences = getSharedPreferences("RememberPassword", Context.MODE_PRIVATE);
         initView();
         //初始化cookie
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[]{"部门", "教师", "学生", "访客"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spinner.setAdapter(adapter);
         this.spinner.setSelection(2);
+        initCheckRemember();
         getCheckCode();
         /**
          * 添加点击刷新验证码事件
@@ -79,6 +101,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 初始化view
+     */
     private void initView() {
         this.editText_username = (EditText) findViewById(R.id.editText_user);
         this.editText_password = (EditText) findViewById(R.id.editText_password);
@@ -87,8 +112,12 @@ public class LoginActivity extends AppCompatActivity {
         this.textView_code = (TextView) findViewById(R.id.textView_code);
         this.spinner = (Spinner) findViewById(R.id.spinner_identity);
         this.button_login = (Button) findViewById(R.id.button_login);
+        this.checkBox_remember = (CheckBox) findViewById(R.id.checkBox_rememberPassword);
     }
 
+    /**
+     * 按钮监听事件
+     */
     private class CodeOnClickListener implements View.OnClickListener {
 
         @Override
@@ -125,6 +154,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 登录
+     */
     private void login() {
         if (TextUtils.isEmpty(editText_username.getText())) {
             Toast.makeText(LoginActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
@@ -138,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "验证码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        //添加请求参数
         RequestBody requestBody = new FormBody.Builder()
                 .add("__VIEWSTATE", "dDw3OTkxMjIwNTU7Oz5dolJKJHgqmp4fsn9ciB2avGIU+w==")
                 .add("__VIEWSTATEGENERATOR", "92719903")
@@ -178,6 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("content", content);
                             intent.setClass(LoginActivity.this, MainActivity.class);
                             LoginActivity.this.startActivity(intent);
+                            rememberUsernamePassword(checkBox_remember.isChecked(), editText_username.getText().toString().trim(), editText_password.getText().toString().trim());
                             LoginActivity.this.finish();
                             Log.v(TAG, "getUrlLogin --> onSuccess --> " + JsoupService.isLogin(content));
                         } else if (JsoupService.getLoginErrorMessage(content) != null) {
@@ -203,5 +237,33 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * 初始化记住密码选框
+     */
+    private void initCheckRemember() {
+        checkBox_remember.setChecked(sharedPreferences.getBoolean("isRememberPassword", false));
+        if (sharedPreferences.getBoolean("isRememberPassword", false)) {
+            editText_username.setText(sharedPreferences.getString("username", ""));
+            editText_password.setText(sharedPreferences.getString("password", ""));
+        }
+    }
+
+    /**
+     * 记住密码
+     *
+     * @param isRemember 是否记住密码
+     * @param username   用户名
+     * @param password   密码
+     */
+    private void rememberUsernamePassword(boolean isRemember, String username, String password) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isRememberPassword", isRemember);
+        if (isRemember) {
+            editor.putString("username", username);
+            editor.putString("password", password);
+        }
+        editor.commit();
     }
 }
