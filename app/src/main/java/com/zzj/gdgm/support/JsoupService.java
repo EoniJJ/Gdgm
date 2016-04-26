@@ -2,6 +2,8 @@ package com.zzj.gdgm.support;
 
 import android.util.Log;
 
+import com.zzj.gdgm.bean.CourseInfo;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -104,5 +106,56 @@ public class JsoupService {
             }
         }
         return course;
+    }
+
+    public static Map<String, Object> getScoreYear(String content) {
+        Map<String, Object> map = new HashMap<>();
+        Document document = Jsoup.parse(content);
+        Elements elements = document.select("input[name=__VIEWSTATE]");
+        map.put("__VIEWSTATE", elements.get(0).val());
+        elements = document.select("input[name=__VIEWSTATEGENERATOR]");
+        map.put("__VIEWSTATEGENERATOR", elements.get(0).val());
+        elements = document.select("select[name=ddlXN] option");
+        List<String> score_year = new ArrayList<>();
+        for (Element element : elements) {
+            score_year.add(element.val());
+        }
+        map.put("score_year", score_year);
+        elements = document.select("select[name=ddlXQ] option");
+        List<String> score_semester = new ArrayList<>();
+        for (Element element : elements) {
+            score_semester.add(element.val());
+        }
+        map.put("score_semester", score_semester);
+        return map;
+    }
+
+    public static ArrayList<CourseInfo> parseCourseScore(String content) {
+        Document document = Jsoup.parse(content);
+        Elements elements = document.select("table#Datagrid1.datelist tr");
+        //移除无效项
+        elements.remove(0);
+        ArrayList<CourseInfo> courseInfoArrayList = new ArrayList<>();
+        for (Element element : elements) {
+            Elements elements1 = element.select("td");
+            CourseInfo courseInfo = new CourseInfo();
+            courseInfo.setYear(elements1.get(0).text());
+            courseInfo.setSemester(elements1.get(1).text());
+            courseInfo.setCourse_code(elements1.get(2).text());
+            courseInfo.setCourse_name(elements1.get(3).text());
+            courseInfo.setCourse_nature(elements1.get(4).text());
+            courseInfo.setCourse_belong(elements1.get(5).text());
+            courseInfo.setCourse_credit(elements1.get(6).text());
+            courseInfo.setCourse_average_point(elements1.get(7).text());
+            courseInfo.setCourse_score(elements1.get(8).text());
+            courseInfo.setCourse_aid_remark(elements1.get(9).text());
+            courseInfo.setCourse_make_up_score(elements1.get(10).text());
+            courseInfo.setCourse_rebuild(elements1.get(11).text());
+            courseInfo.setCourse_college(elements1.get(12).text());
+            courseInfo.setRemark(elements1.get(13).text());
+            courseInfo.setCourse_rebuild_mark(elements1.get(14).text());
+            courseInfoArrayList.add(courseInfo);
+        }
+        return courseInfoArrayList;
     }
 }

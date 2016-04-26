@@ -265,5 +265,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.putString("password", password);
         }
         editor.commit();
+
     }
+
 }

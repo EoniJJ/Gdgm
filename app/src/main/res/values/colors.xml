@@ -5,4 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="courseTextColor">#05508c</color>
     <color name="courseDetailTextColor">#FFFFFF</color>
+
+    <!--成绩合格颜色-->
+    <color name="score_pass">#81C784</color>
+    <!--成绩不合格颜色-->
+    <color name="score_failed">#FF7043</color>
 </resources>

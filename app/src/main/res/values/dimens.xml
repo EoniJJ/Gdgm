@@ -9,4 +9,7 @@
     <dimen name="course_layout_line_height">120dp</dimen>
 
     <dimen name="course_layout_margin_horizontal">1dp</dimen>
+
+    <dimen name="score_layout_item_textSize">22sp</dimen>
+    <dimen name="score_layout_item_textSize_small">16sp</dimen>
 </resources>

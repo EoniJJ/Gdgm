@@ -1,5 +1,6 @@
 package com.zzj.gdgm.adapter;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,18 +11,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.zzj.gdgm.R;
+import com.zzj.gdgm.support.JsoupService;
 import com.zzj.gdgm.support.OkHttpUtil;
 import com.zzj.gdgm.ui.CourseActivity;
 import com.zzj.gdgm.view.SimpleItemHolder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -35,11 +46,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private LayoutInflater layoutInflater;
     private Map<String, String> linkMap;
     private Handler handler;
+    private ProgressDialog progressDialog;
 
     public MainRecyclerAdapter(Context context, Handler handler) {
         this.context = context;
         this.handler = handler;
         layoutInflater = LayoutInflater.from(context);
+        progressDialog = new ProgressDialog(context);
     }
 
     public Map<String, String> getLinkMap() {
@@ -96,10 +109,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int tag = (int) v.getTag();
         switch (tag) {
             case 0:
-                final ProgressDialog progressDialog = new ProgressDialog(context);
-                progressDialog.setMessage("正在读取数据....");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+                dialogShow("正在读取数据....", false);
                 for (String key : linkMap.keySet()) {
                     Log.d(TAG, "linkMap --> key = " + key + " --> value = " + linkMap.get(key));
                 }
@@ -142,12 +152,58 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
                 break;
             case 1:
+                dialogShow("正在拼命加载中...", false);
+                Request request_score = OkHttpUtil.getRequest(OkHttpUtil.getREFERER() + linkMap.get("学习成绩查询"));
+                OkHttpUtil.getOkHttpClient().newCall(request_score).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.v(TAG, "学习成绩查询  onFailure --> " + e.getMessage());
+                        progressDialog.dismiss();
+                    }
 
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        try {
+                            Message message = Message.obtain();
+                            if (response.code() == 200) {
+                                String content = new String(response.body().bytes(), "gb2312");
+                                Map<String, Object> map = JsoupService.getScoreYear(content);
+                                message.arg1 = 1;
+                                message.obj = map;
+                                handler.sendMessage(message);
+                                Log.v(TAG, "学习成绩查询  onResponse --> content = " + content);
+                            }
+                            Log.v(TAG, "学习成绩查询  onResponse --> response.code = " + response.code());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            progressDialog.dismiss();
+                        }
+                    }
+                });
                 break;
             case 2:
 
                 break;
 
         }
+    }
+
+    /**
+     * 设置dialog状态信息并展示
+     *
+     * @param message    dialog内容
+     * @param cancelable 是否可取消
+     */
+    public void dialogShow(String message, boolean cancelable) {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        progressDialog.setMessage(message);
+        progressDialog.setCancelable(cancelable);
+        progressDialog.show();
+    }
+
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
     }
 }
