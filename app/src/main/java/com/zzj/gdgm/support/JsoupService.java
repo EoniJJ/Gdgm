@@ -108,6 +108,11 @@ public class JsoupService {
         return course;
     }
 
+    /**
+     * 获取学年学期以及请求参数
+     * @param content   html源代码
+     * @return   存储学年学期请求参数的map集合
+     */
     public static Map<String, Object> getScoreYear(String content) {
         Map<String, Object> map = new HashMap<>();
         Document document = Jsoup.parse(content);
@@ -130,6 +135,12 @@ public class JsoupService {
         return map;
     }
 
+    /**
+     * 将成绩解析为实体
+     *
+     * @param content html源代码
+     * @return 所有课程成绩的list集合
+     */
     public static ArrayList<CourseInfo> parseCourseScore(String content) {
         Document document = Jsoup.parse(content);
         Elements elements = document.select("table#Datagrid1.datelist tr");
@@ -139,21 +150,68 @@ public class JsoupService {
         for (Element element : elements) {
             Elements elements1 = element.select("td");
             CourseInfo courseInfo = new CourseInfo();
+            /**
+             * 赋值学年
+             */
             courseInfo.setYear(elements1.get(0).text());
+            /**
+             * 赋值学期
+             */
             courseInfo.setSemester(elements1.get(1).text());
+            /**
+             * 赋值课程代码
+             */
             courseInfo.setCourse_code(elements1.get(2).text());
+            /**
+             * 赋值课程名称
+             */
             courseInfo.setCourse_name(elements1.get(3).text());
+            /**
+             * 赋值课程性质
+             */
             courseInfo.setCourse_nature(elements1.get(4).text());
+            /**
+             * 赋值课程归属
+             */
             courseInfo.setCourse_belong(elements1.get(5).text());
+            /**
+             * 赋值课程学分
+             */
             courseInfo.setCourse_credit(elements1.get(6).text());
+            /**
+             * 赋值课程绩点
+             */
             courseInfo.setCourse_average_point(elements1.get(7).text());
+            /**
+             * 赋值课程分数
+             */
             courseInfo.setCourse_score(elements1.get(8).text());
+            /**
+             * 赋值辅修标记
+             */
             courseInfo.setCourse_aid_remark(elements1.get(9).text());
+            /**
+             * 赋值补考成绩
+             */
             courseInfo.setCourse_make_up_score(elements1.get(10).text());
+            /**
+             * 赋值重修成绩
+             */
             courseInfo.setCourse_rebuild(elements1.get(11).text());
+            /**
+             * 赋值院系
+             */
             courseInfo.setCourse_college(elements1.get(12).text());
+            /**
+             * 赋值备注
+             */
             courseInfo.setRemark(elements1.get(13).text());
+            /**
+             * 赋值重修标记
+             */
             courseInfo.setCourse_rebuild_mark(elements1.get(14).text());
+
+            //添加到集合
             courseInfoArrayList.add(courseInfo);
         }
         return courseInfoArrayList;

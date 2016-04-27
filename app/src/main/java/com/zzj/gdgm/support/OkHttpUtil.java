@@ -2,8 +2,6 @@ package com.zzj.gdgm.support;
 
 import com.zzj.gdgm.cookie.CookiesManager;
 
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -87,7 +85,7 @@ public class OkHttpUtil {
      * @return 返回一个Request对象
      */
     public static Request getRequest(String url, String Referer, RequestBody requestBody) {
-        Request request = new Request.Builder().url(url).addHeader("Host", HOST).addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36").addHeader("Referer", Referer).post(requestBody).build();
+        Request request = new Request.Builder().url(url).addHeader("Host", HOST).addHeader("Referer", Referer).post(requestBody).build();
         return request;
     }
 }

@@ -18,6 +18,9 @@ import java.util.ArrayList;
  * Created by J。 on 2016/4/25.
  */
 public class ScoreActivity extends AppCompatActivity {
+    /**
+     * 显示学年学期
+     */
     private TextView textView_score_header;
     private RecyclerView recyclerView_score;
 
@@ -27,6 +30,7 @@ public class ScoreActivity extends AppCompatActivity {
         setContentView(R.layout.score_layout);
         initView();
         Intent intent = getIntent();
+        //获取intent传递过来的List
         ArrayList<CourseInfo> courseInfoArrayList = (ArrayList<CourseInfo>) intent.getSerializableExtra("score");
         String year = intent.getStringExtra("year");
         String semester = intent.getStringExtra("semester");
