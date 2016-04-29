@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -61,7 +62,12 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox checkBox_remember;
     private SharedPreferences sharedPreferences;
     private Handler handler;
+    private Toolbar toolbar;
     private static final String TAG = "LoginActivity";
+    /**
+     * 是否正在请求验证码
+     */
+    private boolean isGetCheckCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +86,8 @@ public class LoginActivity extends AppCompatActivity {
         };
         sharedPreferences = getSharedPreferences("RememberPassword", Context.MODE_PRIVATE);
         initView();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("登录");
         //初始化cookie
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[]{"部门", "教师", "学生", "访客"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -105,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
      * 初始化view
      */
     private void initView() {
+        this.toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         this.editText_username = (EditText) findViewById(R.id.editText_user);
         this.editText_password = (EditText) findViewById(R.id.editText_password);
         this.editText_code = (EditText) findViewById(R.id.editText_code);
@@ -130,28 +139,39 @@ public class LoginActivity extends AppCompatActivity {
      * 请求验证码
      */
     private void getCheckCode() {
-        Request request = OkHttpUtil.getRequest(OkHttpUtil.getUrlCode());
-        OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Message message = Message.obtain();
-                message.obj = BitmapFactory.decodeResource(getResources(), R.drawable.code_error);
-                handler.sendMessage(message);
-                Log.d(TAG, "getCheckCode -->>> onFailure -->>>" + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Message message = Message.obtain();
-                if (response.code() == 200) {
-                    message.obj = BitmapFactory.decodeStream(response.body().byteStream());
-                } else {
+        //若正在请求中，直接return
+        if (isGetCheckCode) {
+            return;
+        }
+        isGetCheckCode = true;
+        try {
+            Request request = OkHttpUtil.getRequest(OkHttpUtil.getUrlCode());
+            OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Message message = Message.obtain();
                     message.obj = BitmapFactory.decodeResource(getResources(), R.drawable.code_error);
+                    handler.sendMessage(message);
+                    Log.d(TAG, "getCheckCode -->>> onFailure -->>>" + e.getMessage());
                 }
-                handler.sendMessage(message);
-                Log.d(TAG, " getCheckCode -->>> onResponse --> response.code -->" + response.code());
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    Message message = Message.obtain();
+                    if (response.code() == 200) {
+                        message.obj = BitmapFactory.decodeStream(response.body().byteStream());
+                    } else {
+                        message.obj = BitmapFactory.decodeResource(getResources(), R.drawable.code_error);
+                    }
+                    handler.sendMessage(message);
+                    Log.d(TAG, " getCheckCode -->>> onResponse --> response.code -->" + response.code());
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            isGetCheckCode = false;
+        }
     }
 
     /**
@@ -209,6 +229,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (JsoupService.isLogin(content) != null) {
                             Intent intent = new Intent();
                             intent.putExtra("content", content);
+                            intent.putExtra("name", JsoupService.isLogin(content));
                             intent.setClass(LoginActivity.this, MainActivity.class);
                             LoginActivity.this.startActivity(intent);
                             rememberUsernamePassword(checkBox_remember.isChecked(), editText_username.getText().toString().trim(), editText_password.getText().toString().trim());

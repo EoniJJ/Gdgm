@@ -22,6 +22,11 @@ public class JsoupService {
     private static final String TAG = "JsoupService";
 
     /**
+     * 菜单名称和链接的集合,key为title,value为链接
+     */
+    private static Map<String, String> linkMap;
+
+    /**
      * 判断是否登录成功
      *
      * @param content 网页html源码
@@ -58,6 +63,26 @@ public class JsoupService {
         return null;
     }
 
+
+    /**
+     * 获取修改密码的信息
+     *
+     * @param content 网页html源码
+     * @return 返回修改密码后的状态信息
+     */
+    public static String getUpdatePasswordMessage(String content) {
+        Document document = Jsoup.parse(content);
+        Elements elements = document.select("script");
+        try {
+            Element element = elements.get(0);
+            Log.d(TAG, element.data().split("'")[1]);
+            return element.data().split("'")[1];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * 解析menu菜单以获得子菜单的url
      *
@@ -71,6 +96,7 @@ public class JsoupService {
         for (Element element : elements) {
             map.put(element.text(), element.attr("href"));
         }
+        linkMap = map;
         return map;
     }
 
@@ -110,8 +136,9 @@ public class JsoupService {
 
     /**
      * 获取学年学期以及请求参数
-     * @param content   html源代码
-     * @return   存储学年学期请求参数的map集合
+     *
+     * @param content html源代码
+     * @return 存储学年学期请求参数的map集合
      */
     public static Map<String, Object> getScoreYear(String content) {
         Map<String, Object> map = new HashMap<>();
@@ -215,5 +242,39 @@ public class JsoupService {
             courseInfoArrayList.add(courseInfo);
         }
         return courseInfoArrayList;
+    }
+
+
+    public static Map<String, String> parsePersonInfo(String content) {
+        Document document = Jsoup.parse(content);
+        Map<String, String> map = new HashMap<>();
+        Elements elements = document.select("table.formlist td.trbg1");
+        Elements elements1 = document.select("table.formlist span");
+        map.put(elements.get(0).text(), elements1.get(0).text());
+        map.put(elements.get(3).text(), elements1.get(5).text());
+        map.put(elements.get(7).text(), elements1.get(9).text());
+        map.put(elements.get(9).text(), elements1.get(11).text());
+        map.put(elements.get(10).text(), elements1.get(12).text());
+        map.put(elements.get(12).text(), elements1.get(14).text());
+        map.put(elements.get(15).text(), elements1.get(17).text());
+        map.put(elements.get(21).text(), elements1.get(24).text());
+        map.put(elements.get(24).text(), elements1.get(27).text());
+        map.put(elements.get(28).text(), elements1.get(31).text());
+        map.put(elements.get(31).text(), elements1.get(34).text());
+        map.put(elements.get(34).text(), elements1.get(37).text());
+        map.put(elements.get(36).text(), elements1.get(39).text());
+        map.put(elements.get(42).text(), elements1.get(45).text());
+        map.put(elements.get(47).text(), elements1.get(51).text());
+        map.put(elements.get(49).text(), elements1.get(53).text());
+        map.put(elements.get(54).text(), elements1.get(57).text());
+        map.put(elements.get(57).text(), elements1.get(59).text());
+        map.put(elements.get(60).text(), elements1.get(61).text());
+        map.put(elements.get(61).text(), elements1.get(62).text());
+        return map;
+    }
+
+
+    public static Map<String, String> getLinkMap() {
+        return linkMap;
     }
 }

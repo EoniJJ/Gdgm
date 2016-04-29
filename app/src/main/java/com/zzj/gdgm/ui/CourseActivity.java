@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import com.zzj.gdgm.R;
@@ -15,6 +17,7 @@ import com.zzj.gdgm.support.JsoupService;
  * 显示课程表界面
  */
 public class CourseActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     private int[][] btn_id = {{R.id.course_1_1, R.id.course_1_2, R.id.course_1_3, R.id.course_1_4, R.id.course_1_5, R.id.course_1_6, R.id.course_1_7},
             {R.id.course_2_1, R.id.course_2_2, R.id.course_2_3, R.id.course_2_4, R.id.course_2_5, R.id.course_2_6, R.id.course_2_7},
             {R.id.course_3_1, R.id.course_3_2, R.id.course_3_3, R.id.course_3_4, R.id.course_3_5, R.id.course_3_6, R.id.course_3_7},
@@ -35,6 +38,9 @@ public class CourseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_layout);
+        this.toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         String response = intent.getStringExtra("content");
         String[][] course = JsoupService.getCourse(response);
@@ -50,5 +56,15 @@ public class CourseActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

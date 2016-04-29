@@ -49,8 +49,17 @@ import okhttp3.Response;
 public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private static final String TAG = "MainRecyclerAdapter";
+    /**
+     * 上下文对象
+     */
     private Context context;
+    /**
+     * 布局加载器
+     */
     private LayoutInflater layoutInflater;
+    /**
+     * 菜单名称和链接的集合,key为title,value为链接
+     */
     private Map<String, String> linkMap;
     private Handler handler;
     private ProgressDialog progressDialog;
@@ -73,6 +82,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         SimpleItemHolder simpleItemHolder = new SimpleItemHolder(layoutInflater.inflate(R.layout.main_simple_item_layout, parent, false));
+        /**
+         * 给View添加监听事件
+         */
         simpleItemHolder.itemView.setOnClickListener(this);
         return simpleItemHolder;
     }
@@ -117,20 +129,19 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (tag) {
             case 0:
                 dialogShow("正在读取数据....", false);
-                for (String key : linkMap.keySet()) {
-                    Log.d(TAG, "linkMap --> key = " + key + " --> value = " + linkMap.get(key));
-                }
                 Request request = OkHttpUtil.getRequest(OkHttpUtil.getREFERER() + linkMap.get("班级课表查询"));
                 OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
+                    //请求失败后的回调方法
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Message message = Message.obtain();
+                        //通过handler发送message以通知ui线程更新UI
                         message.obj = "获取数据失败";
                         handler.sendMessage(message);
                         Log.v(TAG, "班级课表查询  onFailure -->  = " + e.getMessage());
                         progressDialog.dismiss();
                     }
-
+                    //请求成功后的回调方法
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         Message message = Message.obtain();
@@ -138,17 +149,19 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (response.code() == 200) {
                                 String content = new String(response.body().bytes(), "gb2312");
                                 if (content != null) {
+                                    //将请求得到的数据放入intent并跳转activity
                                     Intent intent = new Intent();
                                     intent.setClass(context, CourseActivity.class);
                                     intent.putExtra("content", content);
                                     context.startActivity(intent);
                                 }
                             } else {
+                                //请求码 response.code != 200  发送消息通知ui线程更新ui
                                 message.obj = "获取数据失败";
                                 handler.sendMessage(message);
                             }
                             Log.v(TAG, "班级课表查询  onResponse -->  statuscode = " + response.code());
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             message.obj = "获取数据失败";
                             handler.sendMessage(message);
                             e.printStackTrace();
@@ -231,7 +244,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /**
      * 显示自定义对话框并请求数据
-     * @param map  学年学期以及请求数据的集合
+     *
+     * @param map 学年学期以及请求数据的集合
      */
     private void showChooseYearSemesterDialog(final Map<String, Object> map) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

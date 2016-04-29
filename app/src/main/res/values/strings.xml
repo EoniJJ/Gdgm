@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">工贸教务系统</string>
+    <string name="drawerLayout_open_string">打开</string>
+    <string name="drawerLayout_close_string">关闭</string>
 </resources>

@@ -43,8 +43,10 @@ public class ScoreRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        //从list集合中取出数据绑定到view
         ((ScoreItemHolder) holder).getTextView_scoreName().setText(courseInfoArrayList.get(position).getCourse_name());
         ((ScoreItemHolder) holder).getTextView_score().setText(courseInfoArrayList.get(position).getCourse_score());
+        //如果分数没有达到及格线，则显示红色，否则显示绿色
         ((ScoreItemHolder) holder).getTextView_score().setTextColor(Integer.parseInt(((ScoreItemHolder) holder).getTextView_score().getText().toString()) < PASS_SCORE ? context.getResources().getColor(R.color.score_failed) : context.getResources().getColor(R.color.score_pass));
         ((ScoreItemHolder) holder).getTextView_scoreNumber().setText(courseInfoArrayList.get(position).getCourse_code());
         ((ScoreItemHolder) holder).getTextView_scoreAveragePoint().setText(courseInfoArrayList.get(position).getCourse_average_point());
