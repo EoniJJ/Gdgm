@@ -18,6 +18,7 @@ import com.zzj.gdgm.support.OkHttpUtil;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -63,19 +64,19 @@ public class BookDetailActivity extends AppCompatActivity {
                 try {
                     if (response.code() == 200) {
                         String content = new String(response.body().bytes(), "gb2312");
-                        final Map<String, String> map = JsoupService.parseBookDetail(content);
+                        final Map<String, List<String>> map = JsoupService.parseBookDetail(content);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                                Iterator iterator = map.keySet().iterator();
-                                while (iterator.hasNext()) {
+                                List<String> title = map.get("title");
+                                List<String> text = map.get("text");
+                                for (int i = 0; i < title.size(); i++) {
                                     TextView textView = new TextView(BookDetailActivity.this);
                                     textView.setLayoutParams(layoutParams);
                                     textView.setTextSize(getResources().getDimension(R.dimen.book_detail_textSize));
                                     textView.setPadding(0, (int) getResources().getDimension(R.dimen.book_detail_margin_top_bottom), 0, (int) getResources().getDimension(R.dimen.book_detail_margin_top_bottom));
-                                    String key = (String) iterator.next();
-                                    textView.setText(key + ":" + map.get(key));
+                                    textView.setText(title.get(i) + ":" + text.get(i));
                                     linearLayout.addView(textView);
                                 }
                             }

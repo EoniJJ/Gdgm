@@ -310,14 +310,19 @@ public class JsoupService {
         return map;
     }
 
-    public static Map<String, String> parseBookDetail(String content) {
+    public static Map<String, List<String>> parseBookDetail(String content) {
         Document document = Jsoup.parse(content);
         Elements td_name = document.select("td.VName");
         Elements td_value = document.select("td.VValue");
-        Map<String, String> map = new HashMap<>();
+        Map<String, List<String>> map = new HashMap<>();
+        List<String> title = new ArrayList<>();
+        List<String> text = new ArrayList<>();
         for (int i = 0; i < td_name.size(); i++) {
-            map.put(td_name.get(i).text(), td_value.get(i).text());
+            title.add(td_name.get(i).text());
+            text.add(td_value.get(i).text());
         }
+        map.put("title", title);
+        map.put("text", text);
         return map;
     }
 }
