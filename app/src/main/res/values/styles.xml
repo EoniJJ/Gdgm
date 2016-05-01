@@ -12,4 +12,7 @@
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
+    <style name="Spinner_style">
+        <item name="colorControlNormal">@android:color/black</item>
+    </style>
 </resources>

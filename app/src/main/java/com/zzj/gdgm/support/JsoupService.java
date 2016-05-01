@@ -2,6 +2,7 @@ package com.zzj.gdgm.support;
 
 import android.util.Log;
 
+import com.zzj.gdgm.bean.BookInfo;
 import com.zzj.gdgm.bean.CourseInfo;
 
 import org.jsoup.Jsoup;
@@ -244,7 +245,12 @@ public class JsoupService {
         return courseInfoArrayList;
     }
 
-
+    /**
+     * 解析个人信息
+     *
+     * @param content 网页html源代码
+     * @return Map集合, key为信息类别, value为个人信息
+     */
     public static Map<String, String> parsePersonInfo(String content) {
         Document document = Jsoup.parse(content);
         Map<String, String> map = new HashMap<>();
@@ -276,5 +282,42 @@ public class JsoupService {
 
     public static Map<String, String> getLinkMap() {
         return linkMap;
+    }
+
+
+    public static Map<String, Object> parseLibrary(String content) {
+        Document document = Jsoup.parse(content);
+        Elements elements_classification = document.select("div#right_m td[width=15%]");
+        Elements elements_book_name = document.select("div#right_m td[width=45%]");
+        Elements elements_author = document.select("div#right_m td:not([align=right])[width=40%]");
+        Map<String, Object> map = new HashMap<>();
+        List<BookInfo> bookInfoList = new ArrayList<>();
+        for (int i = 0; i < elements_classification.size(); i++) {
+            BookInfo bookInfo = new BookInfo();
+            bookInfo.setClassification(elements_classification.get(i).text());
+            bookInfo.setBook_name(elements_book_name.get(i).text());
+            bookInfo.setAuthor(elements_author.get(i).text());
+            bookInfo.setUrl_detail(elements_classification.get(i).select("a").get(0).attr("href"));
+            bookInfoList.add(bookInfo);
+        }
+        map.put("book_list", bookInfoList);
+        Elements elements_next_page = document.select("div#right_m td.title[colspan=3] a");
+        for (Element element : elements_next_page) {
+            if (element.text().equals("下页")) {
+                map.put("next_page", element.attr("href"));
+            }
+        }
+        return map;
+    }
+
+    public static Map<String, String> parseBookDetail(String content) {
+        Document document = Jsoup.parse(content);
+        Elements td_name = document.select("td.VName");
+        Elements td_value = document.select("td.VValue");
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < td_name.size(); i++) {
+            map.put(td_name.get(i).text(), td_value.get(i).text());
+        }
+        return map;
     }
 }

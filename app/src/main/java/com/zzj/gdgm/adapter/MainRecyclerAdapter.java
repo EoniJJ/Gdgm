@@ -21,8 +21,10 @@ import android.widget.Toast;
 import com.zzj.gdgm.R;
 import com.zzj.gdgm.bean.CourseInfo;
 import com.zzj.gdgm.support.JsoupService;
+import com.zzj.gdgm.support.MyApplication;
 import com.zzj.gdgm.support.OkHttpUtil;
 import com.zzj.gdgm.ui.CourseActivity;
+import com.zzj.gdgm.ui.LibraryActivity;
 import com.zzj.gdgm.ui.ScoreActivity;
 import com.zzj.gdgm.view.SimpleItemHolder;
 
@@ -141,6 +143,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         Log.v(TAG, "班级课表查询  onFailure -->  = " + e.getMessage());
                         progressDialog.dismiss();
                     }
+
                     //请求成功后的回调方法
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
@@ -216,7 +219,9 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
                 break;
             case 2:
-
+                Intent intent = new Intent();
+                intent.setClass(context, LibraryActivity.class);
+                context.startActivity(intent);
                 break;
 
         }
@@ -287,7 +292,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 /**
                  * 对Referer中的中文进行编码
                  */
-                String Referer = encodeUrl(OkHttpUtil.getREFERER() + getLinkMap().get("学习成绩查询"));
+                String Referer = OkHttpUtil.encodeUrl(OkHttpUtil.getREFERER() + getLinkMap().get("学习成绩查询"));
                 Request request = OkHttpUtil.getRequest(Referer, Referer, requestBody);
                 dialogShow("正在努力读取数据", false);
                 OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
@@ -340,23 +345,4 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         builder.show();
     }
 
-
-    /**
-     * 将Url中的中文进行编码
-     *
-     * @param url 要进行编码的Url
-     * @return 编码后的url
-     */
-    private String encodeUrl(String url) {
-        String new_url = url;
-        Matcher matcher = Pattern.compile("[\\u4e00-\\u9fa5]").matcher(new_url);
-        while (matcher.find()) {
-            try {
-                new_url = new_url.replaceAll(matcher.group(), URLEncoder.encode(matcher.group(), "gb2312"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-        return new_url;
-    }
 }

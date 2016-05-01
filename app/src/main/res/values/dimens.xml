@@ -10,6 +10,13 @@
 
     <dimen name="course_layout_margin_horizontal">1dp</dimen>
 
-    <dimen name="score_layout_item_textSize">22sp</dimen>
+    <dimen name="score_layout_item_textSize">18sp</dimen>
     <dimen name="score_layout_item_textSize_small">16sp</dimen>
+
+    <dimen name="book_info_item_textSize">18sp</dimen>
+    <dimen name="book_detail_textSize">12sp</dimen>
+    <dimen name="course_text_size" >12sp</dimen>
+
+
+    <dimen name="book_detail_margin_top_bottom">2dp</dimen>
 </resources>

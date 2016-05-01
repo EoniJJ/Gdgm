@@ -2,4 +2,20 @@
     <string name="app_name">工贸教务系统</string>
     <string name="drawerLayout_open_string">打开</string>
     <string name="drawerLayout_close_string">关闭</string>
+
+
+    <string-array name="library_search_type">
+        <item>书名</item>
+        <item>作者</item>
+        <item>ISBN</item>
+        <item>分类号</item>
+    </string-array>
+    <string-array name="library_search_values">
+        <item>正题名</item>
+        <item>责任者</item>
+        <item>标准编号</item>
+        <item>索取号</item>
+    </string-array>
+    <item name="book_detail_url" type="id"></item>
+    <item name="book_name" type="id"></item>
 </resources>

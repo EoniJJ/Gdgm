@@ -30,6 +30,11 @@
         <activity
             android:name=".ui.PersonInfoActivity"
             android:label="个人信息" />
+        <activity
+            android:name=".ui.LibraryActivity"
+            android:label="图书查询"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.BookDetailActivity" />
     </application>
 
 </manifest>

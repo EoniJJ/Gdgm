@@ -7,18 +7,23 @@ import android.os.Message;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zzj.gdgm.BuildConfig;
 import com.zzj.gdgm.R;
 import com.zzj.gdgm.adapter.MainRecyclerAdapter;
 import com.zzj.gdgm.support.JsoupService;
@@ -48,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView textView_drawer_top_name;
     private ListView drawer_listView;
+    private LinearLayout linearLayout_sign_out;
+    //记录第一次按退出按钮时的时间
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String name = intent.getStringExtra("name");
         String content = intent.getStringExtra("content");
         initView();
@@ -80,7 +88,15 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerAdapter.setLinkMap(JsoupService.parseMenu(content));
         recyclerView.setAdapter(mainRecyclerAdapter);
         initDrawerMenu(name);
-
+        linearLayout_sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent();
+                intent1.setClass(MainActivity.this, LoginActivity.class);
+                startActivity(intent1);
+                MainActivity.this.finish();
+            }
+        });
     }
 
     /**
@@ -92,18 +108,37 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.main_DrawerLayout);
         textView_drawer_top_name = (TextView) findViewById(R.id.drawer_top_name);
         drawer_listView = (ListView) findViewById(R.id.drawer_listView);
+        linearLayout_sign_out = (LinearLayout) findViewById(R.id.sign_out);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawers();
-            } else {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawers();
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+                return true;
+            case R.id.about_app:
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                String app_name = this.getString(this.getApplicationInfo().labelRes);
+                String app_version = BuildConfig.VERSION_NAME;
+                String author = "By:XiaoJ";
+                String contacts = "Email:397336190@qq.com";
+                String message = app_name + "\n" + "版本:" + app_version + "\n" + author + "\n" + contacts;
+                builder.setMessage(message);
+                builder.setPositiveButton("确定", null);
+                builder.show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -138,5 +173,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * 实现按两下返回退出app
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(this, "再按一次退出" + this.getString(this.getApplicationInfo().labelRes), Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                onBackPressed();
+            }
+        }
+        return false;
     }
 }
