@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Created by J。 on 2016/4/25.
+ * 成绩展示Activity
  */
 public class ScoreActivity extends AppCompatActivity {
     private Toolbar toolbar;

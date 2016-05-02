@@ -61,6 +61,13 @@ public class UpdatePasswordActivity extends AppCompatActivity {
         button_ok = (Button) findViewById(R.id.button_update_password_ok);
     }
 
+    /**
+     * 执行修改密码
+     *
+     * @param old_password  旧密码
+     * @param new_password  新密码
+     * @param new_password2 重复新密码
+     */
     private void updatePassword(String old_password, String new_password, String new_password2) {
         if (TextUtils.isEmpty(old_password)) {
             Toast.makeText(UpdatePasswordActivity.this, "旧密码不能为空", Toast.LENGTH_SHORT).show();
@@ -78,6 +85,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
             Toast.makeText(UpdatePasswordActivity.this, "两次密码不一致", Toast.LENGTH_SHORT).show();
             return;
         }
+        //添加请求参数
         RequestBody requestBody = new FormBody.Builder()
                 .add("__VIEWSTATE", "dDwtMzg5NzE5MDc3Ozs+D9XpBPpncfl9VzHasb+GdD/ksxg=")
                 .add("__VIEWSTATEGENERATOR", "23D32CE9")
@@ -86,6 +94,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                 .add("Textbox4", editText_new_password2.getText().toString().toString())
                 .add("Button1", "%D0%DE++%B8%C4")
                 .build();
+        //获取Request对象
         Request request = OkHttpUtil.getRequest(OkHttpUtil.getREFERER() + JsoupService.getLinkMap().get("密码修改"), OkHttpUtil.getREFERER() + JsoupService.getLinkMap().get("密码修改"), requestBody);
         OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
@@ -103,6 +112,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                 try {
                     String content = new String(response.body().bytes(), "gb2312");
                     final String message = JsoupService.getUpdatePasswordMessage(content);
+                    //获得修改后的提示信息
                     if (message != null) {
                         runOnUiThread(new Runnable() {
                             @Override

@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 初始化抽屉菜单
+     * @param name  用户名字
+     */
     private void initDrawerMenu(String name) {
         textView_drawer_top_name.setText(name);
         List<Map<String, Object>> list = new ArrayList<>();

@@ -16,9 +16,13 @@ import java.util.List;
 
 /**
  * Created by J。 on 2016/5/1.
+ * 图书查询RecyclerView适配器
  */
 public class LibraryRecyclerAdapter extends RecyclerView.Adapter<BookInfoItemHolder> implements View.OnClickListener {
 
+    /**
+     * 存放图书信息实体的集合
+     */
     private List<BookInfo> bookInfoList;
     private LayoutInflater layoutInflater;
     private Context context;
@@ -35,6 +39,7 @@ public class LibraryRecyclerAdapter extends RecyclerView.Adapter<BookInfoItemHol
     @Override
     public BookInfoItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         BookInfoItemHolder bookInfoItemHolder = new BookInfoItemHolder(layoutInflater.inflate(R.layout.book_info_item, parent, false));
+        //添加事件监听器
         bookInfoItemHolder.itemView.setOnClickListener(this);
         return bookInfoItemHolder;
     }
@@ -44,7 +49,9 @@ public class LibraryRecyclerAdapter extends RecyclerView.Adapter<BookInfoItemHol
         holder.getTextView_classification().setText(bookInfoList.get(position).getClassification());
         holder.getTextView_book_name().setText(bookInfoList.get(position).getBook_name());
         holder.getTextView_author().setText(bookInfoList.get(position).getAuthor());
+        //将详情页url设置为tag,供监听事件触发时获取
         holder.itemView.setTag(R.id.book_detail_url, bookInfoList.get(position).getUrl_detail());
+        //将书名设置为tag,供监听事件触发时获取
         holder.itemView.setTag(R.id.book_name, bookInfoList.get(position).getBook_name());
     }
 

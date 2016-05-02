@@ -12,8 +12,17 @@ import com.zzj.gdgm.R;
  * 主界面RecyclerView 的Item
  */
 public class SimpleItemHolder extends RecyclerView.ViewHolder {
+    /**
+     * item标题
+     */
     private TextView textView_title;
+    /**
+     * item背景图片
+     */
     private ImageView imageView_titleImage;
+    /**
+     * item文字内容
+     */
     private TextView textView_content;
 
     public SimpleItemHolder(View itemView) {

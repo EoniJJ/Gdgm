@@ -8,11 +8,20 @@ import com.zzj.gdgm.R;
 
 /**
  * Created by J。 on 2016/5/1.
+ * 图书item
  */
 public class BookInfoItemHolder extends RecyclerView.ViewHolder {
-
+    /**
+     * 图书分类号
+     */
     private TextView textView_classification;
+    /**
+     * 图书名字
+     */
     private TextView textView_book_name;
+    /**
+     * 图书作者
+     */
     private TextView textView_author;
 
     public BookInfoItemHolder(View itemView) {

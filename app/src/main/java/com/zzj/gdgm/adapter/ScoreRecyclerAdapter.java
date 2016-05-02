@@ -23,6 +23,9 @@ public class ScoreRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context context;
     private LayoutInflater layoutInflater;
 
+    /**
+     * 存放课程成绩信息实体的集合
+     */
     private ArrayList<CourseInfo> courseInfoArrayList;
 
     public ScoreRecyclerAdapter(Context context, ArrayList<CourseInfo> courseInfoArrayList) {

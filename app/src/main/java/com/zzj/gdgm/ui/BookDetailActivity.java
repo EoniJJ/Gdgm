@@ -28,6 +28,7 @@ import okhttp3.Response;
 
 /**
  * Created by J。 on 2016/5/1.
+ * 图书详情页Activity
  */
 public class BookDetailActivity extends AppCompatActivity {
 
@@ -42,11 +43,13 @@ public class BookDetailActivity extends AppCompatActivity {
         setContentView(R.layout.book_detail_layout);
         initView();
         Intent intent = getIntent();
+        //从Intent中取出数据
         String book_name = intent.getStringExtra("book_name");
         String url = OkHttpUtil.encodeUrl(OkHttpUtil.getLibrarySearchParentUrl() + intent.getStringExtra("url"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(book_name);
+        //获取一个request对象
         Request request = OkHttpUtil.getRequest(url, OkHttpUtil.getLibraySearchHost(), OkHttpUtil.getREFERER());
         OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
@@ -72,6 +75,7 @@ public class BookDetailActivity extends AppCompatActivity {
                                 List<String> title = map.get("title");
                                 List<String> text = map.get("text");
                                 for (int i = 0; i < title.size(); i++) {
+                                    //动态添加TextView到LinearLayout中
                                     TextView textView = new TextView(BookDetailActivity.this);
                                     textView.setLayoutParams(layoutParams);
                                     textView.setTextSize(getResources().getDimension(R.dimen.book_detail_textSize));

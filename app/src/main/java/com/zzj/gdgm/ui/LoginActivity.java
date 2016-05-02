@@ -59,8 +59,14 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textView_code;
     private Spinner spinner;
     private Button button_login;
+    /**
+     * 记住密码复选框
+     */
     private CheckBox checkBox_remember;
     private SharedPreferences sharedPreferences;
+    /**
+     * 身份下拉框
+     */
     private Handler handler;
     private Toolbar toolbar;
     private static final String TAG = "LoginActivity";
@@ -226,21 +232,27 @@ public class LoginActivity extends AppCompatActivity {
                     Message message = Message.obtain();
                     if (response.code() == 200) {
                         String content = new String(response.body().bytes(), "gb2312");
+                        //登录成功
                         if (JsoupService.isLogin(content) != null) {
                             Intent intent = new Intent();
+                            //将响应的html代码放入intent
                             intent.putExtra("content", content);
+                            //将名字放入intent
                             intent.putExtra("name", JsoupService.isLogin(content));
                             intent.setClass(LoginActivity.this, MainActivity.class);
                             LoginActivity.this.startActivity(intent);
+                            //是否记住密码
                             rememberUsernamePassword(checkBox_remember.isChecked(), editText_username.getText().toString().trim(), editText_password.getText().toString().trim());
                             LoginActivity.this.finish();
                             Log.v(TAG, "getUrlLogin --> onSuccess --> " + JsoupService.isLogin(content));
-                        } else if (JsoupService.getLoginErrorMessage(content) != null) {
+                        }//登录失败，显示登陆失败后的提示信息
+                        else if (JsoupService.getLoginErrorMessage(content) != null) {
                             message.obj = JsoupService.getLoginErrorMessage(content);
                             handler.sendMessage(message);
                             Log.v(TAG, "getUrlLogin --> onSuccess -->" + JsoupService.getLoginErrorMessage(content));
                             getCheckCode();
-                        } else {
+                        }//若没有提示信息
+                        else {
                             message.obj = "登陆失败";
                             handler.sendMessage(message);
                             getCheckCode();
@@ -265,14 +277,17 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void initCheckRemember() {
         checkBox_remember.setChecked(sharedPreferences.getBoolean("isRememberPassword", false));
+        //如果选择为记住密码
         if (sharedPreferences.getBoolean("isRememberPassword", false)) {
+            //通过sharedPreferences获取用户名并设置
             editText_username.setText(sharedPreferences.getString("username", ""));
+            //通过sharedPreferences获取密码并设置
             editText_password.setText(sharedPreferences.getString("password", ""));
         }
     }
 
     /**
-     * 记住密码
+     * 是否记住密码，将账号密码通过SharedPreferences存储
      *
      * @param isRemember 是否记住密码
      * @param username   用户名
@@ -281,6 +296,7 @@ public class LoginActivity extends AppCompatActivity {
     private void rememberUsernamePassword(boolean isRemember, String username, String password) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isRememberPassword", isRemember);
+        //如果记住密码
         if (isRemember) {
             editor.putString("username", username);
             editor.putString("password", password);

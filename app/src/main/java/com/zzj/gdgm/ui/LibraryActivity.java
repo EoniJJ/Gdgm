@@ -39,6 +39,7 @@ import okhttp3.Response;
 
 /**
  * Created by J。 on 2016/4/30.
+ * 图书查询Activity
  */
 public class LibraryActivity extends AppCompatActivity {
 
@@ -46,13 +47,30 @@ public class LibraryActivity extends AppCompatActivity {
 
 
     private Toolbar toolbar;
+    /**
+     * 检索词类型Spinner
+     */
     private Spinner spinner_search_type;
+    /**
+     * 检索关键字
+     */
     private EditText editTextr_search_value;
     private Button button_search;
     private RecyclerView recyclerView;
+    /**
+     * 刷新控件
+     */
     private SwipeRefreshLayout swipeRefreshLayout;
     private LibraryRecyclerAdapter libraryRecyclerAdapter;
+
+    /**
+     * Map集合，key为信息种类  book_list —> 对应图书信息，value为存放图书信息的集合  next_page ->对应下一页 ，若存在下一页，则该值不为空。
+     */
     private Map<String, Object> map;
+
+    /**
+     * 是否正在加载更多
+     */
     private boolean onLoadingMore;
 
     @Override
@@ -71,14 +89,19 @@ public class LibraryActivity extends AppCompatActivity {
         button_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //如果没有在加载则执行
                 if (!swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(true);
+                    //获取检索词种类所对应的全部value转成数组对象
                     String[] library_search_values = getResources().getStringArray(R.array.library_search_values);
+                    //所选择的检索词种类
                     String library_search_value = library_search_values[spinner_search_type.getSelectedItemPosition()];
+                    //将检索词种类，检索关键字，以及按钮的Text(value)作为参数传给查询图书方法
                     search_book(library_search_value, editTextr_search_value.getText().toString().trim(), button_search.getText().toString());
                 }
             }
         });
+        //recyclerview添加滚动监听器
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -89,6 +112,7 @@ public class LibraryActivity extends AppCompatActivity {
                 int firstVisableItem = linearLayoutManager.findFirstVisibleItemPosition();
                 //item总数量
                 int itemCount = linearLayoutManager.getItemCount();
+                //如果当前没有在进行触底加载  并且 map中的下一页不为空(即存在下一页)  并且 已滚动的item数量+当前可视的item数量>=item总数量(证明已到达底部)
                 if (!onLoadingMore && map.get("next_page") != null && (childCount + firstVisableItem) >= itemCount) {
                     onLoadingMore = true;
                     swipeRefreshLayout.setRefreshing(true);
@@ -117,9 +141,19 @@ public class LibraryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 查询图书的方法
+     *
+     * @param keyword  检索词种类
+     * @param keyvalue 检索词关键字
+     * @param submit   按钮value
+     */
     private void search_book(String keyword, String keyvalue, String submit) {
+        //将所有参数转为url
         String url = OkHttpUtil.getLibrarySearch() + "?keyword=" + keyword + "&keyvalue=" + keyvalue + "&submit=" + submit;
+        //对url中的中文进行编码
         String url_new = OkHttpUtil.encodeUrl(url);
+        //获得request对象
         Request request = OkHttpUtil.getRequest(url_new, OkHttpUtil.getLibraySearchHost(), OkHttpUtil.getLibrarySearchReferer());
         OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
@@ -143,7 +177,9 @@ public class LibraryActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                //将数据传递给适配器
                                 libraryRecyclerAdapter.setBookInfoList((List<BookInfo>) map.get("book_list"));
+                                //更新数据 更新Ui
                                 libraryRecyclerAdapter.notifyDataSetChanged();
                             }
                         });
@@ -155,6 +191,7 @@ public class LibraryActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //刷新动画结束
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     });
@@ -163,8 +200,15 @@ public class LibraryActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 触底加载
+     *
+     * @param url 要加载的目标Url
+     */
     private void load_more(String url) {
+        //将url中的中文进行编码
         String url_new = OkHttpUtil.encodeUrl(url);
+        //获得request对象
         Request request = OkHttpUtil.getRequest(url_new);
         OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
@@ -183,10 +227,12 @@ public class LibraryActivity extends AppCompatActivity {
                 try {
                     String content = new String(response.body().bytes(), "gb2312");
                     map = JsoupService.parseLibrary(content);
+                    //将数据添加到适配器中的集合
                     libraryRecyclerAdapter.getBookInfoList().addAll((List<BookInfo>) map.get("book_list"));
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //适配器更新ui
                             libraryRecyclerAdapter.notifyDataSetChanged();
                         }
                     });
@@ -196,7 +242,9 @@ public class LibraryActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //加载动画关闭
                             swipeRefreshLayout.setRefreshing(false);
+                            //触底加载结束
                             onLoadingMore = false;
                         }
                     });

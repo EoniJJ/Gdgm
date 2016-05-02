@@ -284,13 +284,19 @@ public class JsoupService {
         return linkMap;
     }
 
-
+    /**
+     * 解析查询图书信息
+     *
+     * @param content 网页html源代码
+     * @return Map集合，key为信息种类  book_list —> 对应图书信息，value为存放图书信息的集合  next_page ->对应下一页 ，若存在下一页，则该值不为空。
+     */
     public static Map<String, Object> parseLibrary(String content) {
         Document document = Jsoup.parse(content);
         Elements elements_classification = document.select("div#right_m td[width=15%]");
         Elements elements_book_name = document.select("div#right_m td[width=45%]");
         Elements elements_author = document.select("div#right_m td:not([align=right])[width=40%]");
         Map<String, Object> map = new HashMap<>();
+        //存放图书信息的集合
         List<BookInfo> bookInfoList = new ArrayList<>();
         for (int i = 0; i < elements_classification.size(); i++) {
             BookInfo bookInfo = new BookInfo();
@@ -298,11 +304,13 @@ public class JsoupService {
             bookInfo.setBook_name(elements_book_name.get(i).text());
             bookInfo.setAuthor(elements_author.get(i).text());
             bookInfo.setUrl_detail(elements_classification.get(i).select("a").get(0).attr("href"));
+            //将图书实体添加到集合
             bookInfoList.add(bookInfo);
         }
         map.put("book_list", bookInfoList);
         Elements elements_next_page = document.select("div#right_m td.title[colspan=3] a");
         for (Element element : elements_next_page) {
+            //若存在下一页，将url存入Map集合
             if (element.text().equals("下页")) {
                 map.put("next_page", element.attr("href"));
             }
@@ -310,6 +318,12 @@ public class JsoupService {
         return map;
     }
 
+    /**
+     * 解析图书详情
+     *
+     * @param content 网页html源代码
+     * @return Map集合  key为种类  value为存储该类型数据的集合
+     */
     public static Map<String, List<String>> parseBookDetail(String content) {
         Document document = Jsoup.parse(content);
         Elements td_name = document.select("td.VName");

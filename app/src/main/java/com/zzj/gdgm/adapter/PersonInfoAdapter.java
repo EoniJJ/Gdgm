@@ -15,11 +15,21 @@ import java.util.Map;
 
 /**
  * Created by J。 on 2016/4/29.
+ * 个人信息ListView适配器
  */
 public class PersonInfoAdapter extends BaseAdapter {
+    /**
+     * 存放信息类别与个人信息集合  key ->信息类别   value->信息
+     */
     private Map<String, String> map;
     private Context context;
+    /**
+     * 存放信息类别集合
+     */
     private List<String> list_title;
+    /**
+     * 存放信息集合
+     */
     private List<String> list_content;
 
     public PersonInfoAdapter(Context context) {

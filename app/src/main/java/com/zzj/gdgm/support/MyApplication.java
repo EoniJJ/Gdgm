@@ -15,6 +15,11 @@ public class MyApplication extends Application {
         context = getApplicationContext();
     }
 
+    /**
+     * 静态方法以供全局调用Application的context
+     *
+     * @return Application的Context对象
+     */
     public static Context getContext() {
         return context;
     }
