@@ -5,7 +5,7 @@
 #功能
 目前实现了登录，查看个人信息，修改密码，查询课表，查询成绩，查询图书馆图书信息等基本功能。
 #Open Source Projects
-[Jsoup](https://github.com/jhy/jsoup)
+<h1>[Jsoup](https://github.com/jhy/jsoup)</h1><br/>
 [OkHttp](https://github.com/square/okhttp)
 #声明
 该项目所有数据均由本人(Zheng Zejian) 通过非正常手段获取。<br/>
