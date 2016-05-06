@@ -185,15 +185,18 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void login() {
         if (TextUtils.isEmpty(editText_username.getText())) {
-            Toast.makeText(LoginActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
+            editText_username.setError("用户名不能为空");
+//            Toast.makeText(LoginActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(editText_password.getText())) {
-            Toast.makeText(LoginActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
+            editText_password.setError("密码不能为空");
+//            Toast.makeText(LoginActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(editText_code.getText())) {
-            Toast.makeText(LoginActivity.this, "验证码不能为空", Toast.LENGTH_SHORT).show();
+            editText_code.setError("验证码不能为空");
+//            Toast.makeText(LoginActivity.this, "验证码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         //添加请求参数
