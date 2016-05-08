@@ -70,19 +70,23 @@ public class UpdatePasswordActivity extends AppCompatActivity {
      */
     private void updatePassword(String old_password, String new_password, String new_password2) {
         if (TextUtils.isEmpty(old_password)) {
-            Toast.makeText(UpdatePasswordActivity.this, "旧密码不能为空", Toast.LENGTH_SHORT).show();
+            editText_old_password.setError(getString(R.string.update_password_old_password_error));
+//            Toast.makeText(UpdatePasswordActivity.this, getString(R.string.update_password_old_password_error), Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(new_password)) {
-            Toast.makeText(UpdatePasswordActivity.this, "新密码不能为空", Toast.LENGTH_SHORT).show();
+            editText_new_password.setError(getString(R.string.update_password_new_password_error));
+//            Toast.makeText(UpdatePasswordActivity.this, getString(R.string.update_password_new_password_error), Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(new_password2)) {
-            Toast.makeText(UpdatePasswordActivity.this, "确认密码不能为空", Toast.LENGTH_SHORT).show();
+            editText_new_password2.setError(getString(R.string.update_password_new_password2_error));
+//            Toast.makeText(UpdatePasswordActivity.this, "确认密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         if (!new_password.equals(new_password2)) {
-            Toast.makeText(UpdatePasswordActivity.this, "两次密码不一致", Toast.LENGTH_SHORT).show();
+            editText_new_password2.setError(getString(R.string.update_password_password_is_not_same));
+//            Toast.makeText(UpdatePasswordActivity.this, "两次密码不一致", Toast.LENGTH_SHORT).show();
             return;
         }
         //添加请求参数
@@ -91,7 +95,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                 .add("__VIEWSTATEGENERATOR", "23D32CE9")
                 .add("TextBox2", editText_old_password.getText().toString().trim())
                 .add("TextBox3", editText_new_password.getText().toString().trim())
-                .add("Textbox4", editText_new_password2.getText().toString().toString())
+                .add("Textbox4", editText_new_password2.getText().toString().trim())
                 .add("Button1", "%D0%DE++%B8%C4")
                 .build();
         //获取Request对象
@@ -102,7 +106,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(UpdatePasswordActivity.this, "修改失败,请检擦网络连接", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdatePasswordActivity.this, getString(R.string.update_error), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -124,7 +128,7 @@ public class UpdatePasswordActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(UpdatePasswordActivity.this, "修改失败,请检擦网络连接", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UpdatePasswordActivity.this, getString(R.string.update_error), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

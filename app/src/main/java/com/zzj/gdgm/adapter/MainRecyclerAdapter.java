@@ -1,7 +1,6 @@
 package com.zzj.gdgm.adapter;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,12 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.zzj.gdgm.R;
 import com.zzj.gdgm.bean.CourseInfo;
 import com.zzj.gdgm.support.JsoupService;
-import com.zzj.gdgm.support.MyApplication;
 import com.zzj.gdgm.support.OkHttpUtil;
 import com.zzj.gdgm.ui.CourseActivity;
 import com.zzj.gdgm.ui.LibraryActivity;
@@ -29,13 +26,9 @@ import com.zzj.gdgm.ui.ScoreActivity;
 import com.zzj.gdgm.view.SimpleItemHolder;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -130,7 +123,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int tag = (int) v.getTag();
         switch (tag) {
             case 0:
-                dialogShow("正在读取数据....", false);
+                dialogShow(context.getString(R.string.isLoddingData), false);
                 Request request = OkHttpUtil.getRequest(OkHttpUtil.getREFERER() + linkMap.get("班级课表查询"));
                 OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
                     //请求失败后的回调方法
@@ -138,7 +131,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     public void onFailure(Call call, IOException e) {
                         Message message = Message.obtain();
                         //通过handler发送message以通知ui线程更新UI
-                        message.obj = "获取数据失败";
+                        message.obj = context.getString(R.string.get_data_error);
                         handler.sendMessage(message);
                         Log.v(TAG, "班级课表查询  onFailure -->  = " + e.getMessage());
                         progressDialog.dismiss();
@@ -151,21 +144,19 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         try {
                             if (response.code() == 200) {
                                 String content = new String(response.body().bytes(), "gb2312");
-                                if (content != null) {
-                                    //将请求得到的数据放入intent并跳转activity
-                                    Intent intent = new Intent();
-                                    intent.setClass(context, CourseActivity.class);
-                                    intent.putExtra("content", content);
-                                    context.startActivity(intent);
-                                }
+                                //将请求得到的数据放入intent并跳转activity
+                                Intent intent = new Intent();
+                                intent.setClass(context, CourseActivity.class);
+                                intent.putExtra("content", content);
+                                context.startActivity(intent);
                             } else {
                                 //请求码 response.code != 200  发送消息通知ui线程更新ui
-                                message.obj = "获取数据失败";
+                                message.obj = context.getString(R.string.get_data_error);
                                 handler.sendMessage(message);
                             }
                             Log.v(TAG, "班级课表查询  onResponse -->  statuscode = " + response.code());
                         } catch (Exception e) {
-                            message.obj = "获取数据失败";
+                            message.obj = context.getString(R.string.get_data_error);
                             handler.sendMessage(message);
                             e.printStackTrace();
                         } finally {
@@ -175,14 +166,14 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
                 break;
             case 1:
-                dialogShow("正在拼命加载中...", false);
+                dialogShow(context.getString(R.string.isLoddingData), false);
                 Request request_score = OkHttpUtil.getRequest(OkHttpUtil.getREFERER() + linkMap.get("学习成绩查询"));
                 OkHttpUtil.getOkHttpClient().newCall(request_score).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Log.v(TAG, "学习成绩查询  onFailure --> " + e.getMessage());
                         Message message = Message.obtain();
-                        message.obj = "获取失败,请检查网络连接状况";
+                        message.obj = context.getString(R.string.get_data_error);
                         handler.sendMessage(message);
                         progressDialog.dismiss();
                     }
@@ -210,7 +201,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         } catch (Exception e) {
                             e.printStackTrace();
                             progressDialog.dismiss();
-                            message.obj = "获取失败,请检查网络连接状况";
+                            message.obj = context.getString(R.string.get_data_error);
                             handler.sendMessage(message);
                         } finally {
                             progressDialog.dismiss();
@@ -242,11 +233,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         progressDialog.show();
     }
 
-    public ProgressDialog getProgressDialog() {
-        return progressDialog;
-    }
-
-
     /**
      * 显示自定义对话框并请求数据
      *
@@ -256,11 +242,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = View.inflate(context, R.layout.score_custom_dialog, null);
         builder.setView(view);
-        builder.setTitle("请选择要查询的学年学期");
+        builder.setTitle(context.getString(R.string.dialog_choose_year_name));
         /**
          * 学年spinner适配器
          */
-        ArrayAdapter<String> arrayAdapter_year = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, (List<String>) map.get("score_year"));
+        ArrayAdapter<String> arrayAdapter_year = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, (List<String>) map.get("score_year"));
         arrayAdapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final Spinner spinner_year = ((Spinner) view.findViewById(R.id.spinner_year));
         spinner_year.setAdapter(arrayAdapter_year);
@@ -279,7 +265,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (((List<String>) map.get("score_semester")).size() > 2) {
             spinner_semester.setSelection((((List<String>) map.get("score_semester")).size() - 3));
         }
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(context.getString(R.string.dialog_PositiveButton_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, int which) {
                 RequestBody requestBody = new FormBody.Builder()
@@ -294,7 +280,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                  */
                 String Referer = OkHttpUtil.encodeUrl(OkHttpUtil.getREFERER() + getLinkMap().get("学习成绩查询"));
                 Request request = OkHttpUtil.getRequest(Referer, Referer, requestBody);
-                dialogShow("正在努力读取数据", false);
+                dialogShow(context.getString(R.string.isLoddingData), false);
                 OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
@@ -302,7 +288,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         progressDialog.dismiss();
                         dialog.dismiss();
                         Message message = Message.obtain();
-                        message.obj = "获取失败,请检查网络连接状况";
+                        message.obj = context.getString(R.string.get_data_error);
                         handler.sendMessage(message);
                     }
 
@@ -320,12 +306,12 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 intent.putExtra("semester", spinner_semester.getSelectedItem().toString());
                                 context.startActivity(intent);
                             } else {
-                                message.obj = "获取失败,请检查网络连接状况";
+                                message.obj = context.getString(R.string.get_data_error);
                                 handler.sendMessage(message);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            message.obj = "获取失败";
+                            message.obj = context.getString(R.string.get_data_error);
                             handler.sendMessage(message);
                         } finally {
                             progressDialog.dismiss();
@@ -336,7 +322,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(context.getString(R.string.dialog_NegativeButton_text), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

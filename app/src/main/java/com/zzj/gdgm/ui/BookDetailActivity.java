@@ -57,7 +57,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(BookDetailActivity.this, "获取失败,请检查网络", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BookDetailActivity.this, getResources().getString(R.string.get_data_error), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -89,7 +89,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(BookDetailActivity.this, "获取失败,请检查网络", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BookDetailActivity.this, getResources().getString(R.string.get_data_error), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -98,7 +98,7 @@ public class BookDetailActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(BookDetailActivity.this, "获取失败,请检查网络", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BookDetailActivity.this, getResources().getString(R.string.get_data_error), Toast.LENGTH_SHORT).show();
                         }
                     });
                 } finally {

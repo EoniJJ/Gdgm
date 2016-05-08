@@ -34,9 +34,6 @@ public class ScoreRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.courseInfoArrayList = courseInfoArrayList;
     }
 
-    public void setCourseInfoArrayList(ArrayList<CourseInfo> courseInfoArrayList) {
-        this.courseInfoArrayList = courseInfoArrayList;
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -2,6 +2,7 @@ package com.zzj.gdgm.bean;
 
 /**
  * Created by J。 on 2016/5/1.
+ * 图书实体类
  */
 public class BookInfo {
     /**

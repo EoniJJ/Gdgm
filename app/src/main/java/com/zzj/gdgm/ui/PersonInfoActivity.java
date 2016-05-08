@@ -75,7 +75,7 @@ public class PersonInfoActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(PersonInfoActivity.this, "获取失败，请检擦网络", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PersonInfoActivity.this, getString(R.string.get_data_error), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

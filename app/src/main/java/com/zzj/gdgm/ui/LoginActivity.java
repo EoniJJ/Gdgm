@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("RememberPassword", Context.MODE_PRIVATE);
         initView();
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("登录");
+        getSupportActionBar().setTitle(getResources().getString(R.string.login_activity_name));
         //初始化cookie
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new String[]{"部门", "教师", "学生", "访客"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -185,17 +185,17 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void login() {
         if (TextUtils.isEmpty(editText_username.getText())) {
-            editText_username.setError("用户名不能为空");
+            editText_username.setError(getString(R.string.username_error));
 //            Toast.makeText(LoginActivity.this, "用户名不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(editText_password.getText())) {
-            editText_password.setError("密码不能为空");
+            editText_password.setError(getString(R.string.password_error));
 //            Toast.makeText(LoginActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(editText_code.getText())) {
-            editText_code.setError("验证码不能为空");
+            editText_code.setError(getString(R.string.checkCode_error));
 //            Toast.makeText(LoginActivity.this, "验证码不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -215,14 +215,14 @@ public class LoginActivity extends AppCompatActivity {
                 + "\nRadioButtonList1 : " + spinner.getSelectedItem().toString());
         Request request = OkHttpUtil.getRequest(OkHttpUtil.getUrlLogin(), requestBody);
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setMessage("正在登录....");
+        progressDialog.setMessage(getString(R.string.isLogining));
         progressDialog.setCancelable(false);
         progressDialog.show();
         OkHttpUtil.getOkHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Message message = Message.obtain();
-                message.obj = "登录失败,请检查网络";
+                message.obj = getString(R.string.login_error);
                 handler.sendMessage(message);
                 Log.d(TAG, " login -->>> onFailure --> " + e.getMessage());
                 progressDialog.dismiss();
@@ -256,12 +256,12 @@ public class LoginActivity extends AppCompatActivity {
                             getCheckCode();
                         }//若没有提示信息
                         else {
-                            message.obj = "登陆失败";
+                            message.obj = getString(R.string.login_error);
                             handler.sendMessage(message);
                             getCheckCode();
                         }
                     } else {
-                        message.obj = "登陆失败,请检查网络";
+                        message.obj = getString(R.string.login_error);
                         handler.sendMessage(message);
                         getCheckCode();
                     }

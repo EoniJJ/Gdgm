@@ -163,7 +163,7 @@ public class LibraryActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        Toast.makeText(LibraryActivity.this, "搜索失败,请检查网络", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LibraryActivity.this, getResources().getString(R.string.seach_book_error), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

@@ -3,7 +3,44 @@
     <string name="drawerLayout_open_string">打开</string>
     <string name="drawerLayout_close_string">关闭</string>
 
+    <!--ActivityName-->
+    <string name="login_activity_name">登录</string>
+    <string name="course_activity_name">课表查询</string>
+    <string name="library_activity_name">图书查询</string>
+    <string name="score_activity_name">成绩查询</string>
+    <string name="person_info_activity_name">个人信息</string>
+    <string name="update_password_activity_name">修改密码</string>
 
+    <!--IntenetError 请求网络错误的错误信息-->
+    <string name="get_data_error">获取失败,请检查网络</string>
+    <string name="seach_book_error">搜索失败,请检查网络</string>
+    <!--isOnLoadingText 正在加载的提示信息-->
+    <string name="isLogining">正在登录...</string>
+    <string name="isLoddingData">正在努力读取数据...</string>
+    <!--LoginError  登录错误的提示信息-->
+    <string name="username_error">用户名不能为空</string>
+    <string name="password_error">密码不能为空</string>
+    <string name="checkCode_error">验证码不能为空</string>
+    <string name="login_error">登陆失败,请检查网络</string>
+    <!--AboutApp    关于App-->
+    <string name="about_author">By:XiaoJ</string>
+    <string name="about_email">Email:397336190@qq.com</string>
+    <string name="about_version">版本:</string>
+    <!--DialogMessage  对话框文本信息-->
+    <string name="dialog_choose_year_name">请选择要查询的学年学期</string>
+    <string name="dialog_PositiveButton_text">确定</string>
+    <string name="dialog_NegativeButton_text">取消</string>
+    <!--exit_app 退出App提示文本-->
+    <string name="exit_app">再按一次退出</string>
+    <!--drawerlayout_item_text 抽屉菜单项的文本信息-->
+    <string name="drawerlayout_person_info_item_name">个人信息</string>
+    <string name="drawerlayout_update_password_item_name">修改密码</string>
+    <!--updatePasswordMessage 修改密码提示文本-->
+    <string name="update_password_old_password_error">旧密码不能为空</string>
+    <string name="update_password_new_password_error">新密码不能为空</string>
+    <string name="update_password_new_password2_error">确认密码不能为空</string>
+    <string name="update_password_password_is_not_same">两次密码不一致</string>
+    <string name="update_error">修改失败,请检查网络连接</string>
     <string-array name="library_search_type">
         <item>书名</item>
         <item>作者</item>

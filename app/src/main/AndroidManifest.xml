@@ -19,22 +19,22 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name"/>
         <activity
             android:name=".ui.CourseActivity"
-            android:label="课表查询"></activity>
+            android:label="@string/course_activity_name"/>
         <activity
             android:name=".ui.ScoreActivity"
-            android:label="成绩查询"></activity>
+            android:label="@string/score_activity_name"/>
         <activity
             android:name=".ui.UpdatePasswordActivity"
-            android:label="修改密码" />
+            android:label="@string/update_password_activity_name" />
         <activity
             android:name=".ui.PersonInfoActivity"
-            android:label="个人信息" />
+            android:label="@string/person_info_activity_name" />
         <activity
             android:name=".ui.LibraryActivity"
-            android:label="图书查询"
+            android:label="@string/library_activity_name"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.BookDetailActivity" />
     </application>

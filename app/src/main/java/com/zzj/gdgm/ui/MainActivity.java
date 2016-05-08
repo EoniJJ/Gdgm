@@ -132,11 +132,11 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 String app_name = this.getString(this.getApplicationInfo().labelRes);
                 String app_version = BuildConfig.VERSION_NAME;
-                String author = "By:XiaoJ";
-                String contacts = "Email:397336190@qq.com";
-                String message = app_name + "\n" + "版本:" + app_version + "\n" + author + "\n" + contacts;
+                String author = getResources().getString(R.string.about_author);
+                String contacts = getResources().getString(R.string.about_email);
+                String message = app_name + "\n" + getResources().getString(R.string.about_version) + app_version + "\n" + author + "\n" + contacts;
                 builder.setMessage(message);
-                builder.setPositiveButton("确定", null);
+                builder.setPositiveButton(getResources().getString(R.string.dialog_PositiveButton_text), null);
                 builder.show();
                 return true;
         }
@@ -145,17 +145,18 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 初始化抽屉菜单
-     * @param name  用户名字
+     *
+     * @param name 用户名字
      */
     private void initDrawerMenu(String name) {
         textView_drawer_top_name.setText(name);
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map = new HashMap<>();
-        map.put("title", "个人信息");
+        map.put("title", getString(R.string.drawerlayout_person_info_item_name));
         map.put("icon", R.drawable.information_personal);
         list.add(map);
         map = new HashMap<>();
-        map.put("title", "修改密码");
+        map.put("title", getString(R.string.drawerlayout_update_password_item_name));
         map.put("icon", R.drawable.change_password);
         list.add(map);
         SimpleAdapter simpleAdapter = new SimpleAdapter(MainActivity.this, list, R.layout.drawer_menu_item, new String[]{"title", "icon"}, new int[]{R.id.drawer_menu_title, R.id.drawer_menu_icon});
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(this, "再按一次退出" + this.getString(this.getApplicationInfo().labelRes), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.exit_app) + this.getString(this.getApplicationInfo().labelRes), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
                 onBackPressed();
