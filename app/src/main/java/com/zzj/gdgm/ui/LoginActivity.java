@@ -90,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
+
         sharedPreferences = getSharedPreferences("RememberPassword", Context.MODE_PRIVATE);
         initView();
         setSupportActionBar(toolbar);
@@ -99,7 +100,9 @@ public class LoginActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spinner.setAdapter(adapter);
         this.spinner.setSelection(2);
+        //初始化记住密码
         initCheckRemember();
+        //加载验证码
         getCheckCode();
         /**
          * 添加点击刷新验证码事件
@@ -176,6 +179,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            //加载验证码结束
             isGetCheckCode = false;
         }
     }
@@ -253,6 +257,7 @@ public class LoginActivity extends AppCompatActivity {
                             message.obj = JsoupService.getLoginErrorMessage(content);
                             handler.sendMessage(message);
                             Log.v(TAG, "getUrlLogin --> onSuccess -->" + JsoupService.getLoginErrorMessage(content));
+                            //登录失败重新加载验证码
                             getCheckCode();
                         }//若没有提示信息
                         else {
@@ -307,5 +312,4 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
 
     }
-
 }

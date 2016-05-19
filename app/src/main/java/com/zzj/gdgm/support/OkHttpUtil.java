@@ -20,9 +20,6 @@ public class OkHttpUtil {
      * 实例化静态okHttpClient对象
      */
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
-          /*  .connectTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)*/
             .cookieJar(new CookiesManager()).build();
     /**
      * Host

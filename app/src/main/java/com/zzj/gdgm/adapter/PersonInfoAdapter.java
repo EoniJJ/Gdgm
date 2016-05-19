@@ -1,6 +1,7 @@
 package com.zzj.gdgm.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -65,16 +66,23 @@ public class PersonInfoAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = null;
+        ViewHolder viewHolder;
         if (convertView != null) {
-            view = convertView;
+            viewHolder = (ViewHolder) convertView.getTag();
         } else {
-            view = View.inflate(context, R.layout.person_info_item, null);
+            viewHolder = new ViewHolder();
+            convertView = View.inflate(context, R.layout.person_info_item, null);
+            viewHolder.textView_title = (TextView) convertView.findViewById(R.id.person_info_title);
+            viewHolder.textView_content = (TextView) convertView.findViewById(R.id.person_info_content);
+            convertView.setTag(viewHolder);
         }
-        TextView textView_title = (TextView) view.findViewById(R.id.person_info_title);
-        textView_title.setText(list_title.get(position));
-        TextView textView_content = (TextView) view.findViewById(R.id.person_info_content);
-        textView_content.setText(list_content.get(position));
-        return view;
+        viewHolder.textView_title.setText(list_title.get(position));
+        viewHolder.textView_content.setText(list_content.get(position));
+        return convertView;
+    }
+
+    private class ViewHolder {
+        public TextView textView_title;
+        public TextView textView_content;
     }
 }
