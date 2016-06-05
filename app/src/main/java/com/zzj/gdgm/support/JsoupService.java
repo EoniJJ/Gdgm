@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.zzj.gdgm.bean.BookInfo;
 import com.zzj.gdgm.bean.CourseInfo;
+import com.zzj.gdgm.bean.GradeExam;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -338,5 +339,31 @@ public class JsoupService {
         map.put("title", title);
         map.put("text", text);
         return map;
+    }
+
+
+    public static List<GradeExam> parseGradeExamScore(String content) {
+        Document document = Jsoup.parse(content);
+        Elements elements = document.select("table#DataGrid1.datelist tr:not([class=datelisthead])");
+        List<GradeExam> gradeExams = new ArrayList<>();
+        for (Element element : elements) {
+            Log.d(TAG, element.toString());
+            Elements elements1 = element.select("td");
+            if (elements1.size() >= 10) {
+                GradeExam gradeExam = new GradeExam();
+                gradeExam.setYear(elements1.get(0).text());
+                gradeExam.setSemester(elements1.get(1).text());
+                gradeExam.setExamName(elements1.get(2).text());
+                gradeExam.setCardNumber(elements1.get(3).text());
+                gradeExam.setExamDate(elements1.get(4).text());
+                gradeExam.setScore(elements1.get(5).text());
+                gradeExam.setListenScore(elements1.get(6).text());
+                gradeExam.setReadScore(elements1.get(7).text());
+                gradeExam.setWriteScore(elements1.get(8).text());
+                gradeExam.setSynthesizeScore(elements1.get(9).text());
+                gradeExams.add(gradeExam);
+            }
+        }
+        return gradeExams;
     }
 }

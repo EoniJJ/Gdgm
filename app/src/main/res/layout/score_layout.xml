@@ -9,8 +9,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="18sp"
-        android:background="#BBDEFB"
-        android:text="2015-2016 第一学期"/>
+        android:background="#BBDEFB" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_score"
         android:layout_width="match_parent"

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.zzj.gdgm.R;
 import com.zzj.gdgm.bean.BookInfo;
 import com.zzj.gdgm.ui.BookDetailActivity;
-import com.zzj.gdgm.view.BookInfoItemHolder;
+import com.zzj.gdgm.holder.BookInfoItemHolder;
 
 import java.util.List;
 

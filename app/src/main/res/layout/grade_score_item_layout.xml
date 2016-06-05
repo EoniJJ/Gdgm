@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="2dp"
+    android:elevation="2dp"
+    android:foreground="?@android:attr/selectableItemBackground"
+    app:cardCornerRadius="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="等级考试名称:"
+                android:textSize="@dimen/score_layout_item_textSize" />
+
+            <TextView
+                android:id="@+id/textView_gradeScoreName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/score_layout_item_textSize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="成绩:"
+                android:textSize="@dimen/score_layout_item_textSize" />
+
+            <TextView
+                android:id="@+id/textView_gradeScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/score_pass"
+                android:textSize="@dimen/score_layout_item_textSize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:text="学年:"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:id="@+id/textView_gradeScoreYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:text="学期:"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:id="@+id/textView_gradeScoreSemester"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="准考证号:"
+                android:layout_marginRight="32dp"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:id="@+id/textView_gradeScoreCardNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/score_layout_item_textSize" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="32dp"
+                android:text="考试日期:"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:id="@+id/textView_gradeExamDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="听力成绩:"
+                android:layout_marginRight="32dp"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:id="@+id/textView_gradeListenScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:textSize="@dimen/score_layout_item_textSize" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="阅读成绩:"
+                android:layout_marginRight="32dp"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:id="@+id/textView_gradeReadScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:textSize="@dimen/score_layout_item_textSize" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="写作成绩:"
+                android:layout_marginRight="32dp"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:id="@+id/textView_gradeWriteScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:textSize="@dimen/score_layout_item_textSize" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="综合成绩:"
+                android:layout_marginRight="32dp"
+                android:textSize="@dimen/score_layout_item_textSize_small" />
+
+            <TextView
+                android:id="@+id/textView_gradeSynthesizeScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:textSize="@dimen/score_layout_item_textSize" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

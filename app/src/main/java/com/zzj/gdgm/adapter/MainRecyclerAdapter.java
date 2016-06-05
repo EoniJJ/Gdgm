@@ -23,7 +23,7 @@ import com.zzj.gdgm.support.OkHttpUtil;
 import com.zzj.gdgm.ui.CourseActivity;
 import com.zzj.gdgm.ui.LibraryActivity;
 import com.zzj.gdgm.ui.ScoreActivity;
-import com.zzj.gdgm.view.SimpleItemHolder;
+import com.zzj.gdgm.holder.SimpleItemHolder;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerAdapter.setLinkMap(JsoupService.parseMenu(content));
         recyclerView.setAdapter(mainRecyclerAdapter);
         initDrawerMenu(name);
+        //退出登录
         linearLayout_sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

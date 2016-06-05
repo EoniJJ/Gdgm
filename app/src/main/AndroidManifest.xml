@@ -37,6 +37,7 @@
             android:label="@string/library_activity_name"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.BookDetailActivity" />
+        <activity android:name=".ui.GradeScoreActivity"  android:label="@string/grade_score_activity_name"/>
     </application>
 
 </manifest>

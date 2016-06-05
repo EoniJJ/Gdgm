@@ -7,14 +7,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.zzj.gdgm.R;
 import com.zzj.gdgm.adapter.ScoreRecyclerAdapter;
 import com.zzj.gdgm.bean.CourseInfo;
+import com.zzj.gdgm.support.JsoupService;
+import com.zzj.gdgm.support.OkHttpUtil;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by J。 on 2016/4/25.
@@ -61,7 +71,18 @@ public class ScoreActivity extends AppCompatActivity {
             case android.R.id.home:
                 this.finish();
                 break;
+            case R.id.menu_grade_exam:
+                Intent intent = new Intent();
+                intent.setClass(ScoreActivity.this, GradeScoreActivity.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.score_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

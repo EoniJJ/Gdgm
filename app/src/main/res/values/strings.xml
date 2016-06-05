@@ -10,6 +10,7 @@
     <string name="score_activity_name">成绩查询</string>
     <string name="person_info_activity_name">个人信息</string>
     <string name="update_password_activity_name">修改密码</string>
+    <string name="grade_score_activity_name">等级考试成绩查询</string>
 
     <!--IntenetError 请求网络错误的错误信息-->
     <string name="get_data_error">获取失败,请检查网络</string>

@@ -1,4 +1,4 @@
-package com.zzj.gdgm.view;
+package com.zzj.gdgm.holder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

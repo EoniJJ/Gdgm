@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.zzj.gdgm.R;
 import com.zzj.gdgm.bean.CourseInfo;
-import com.zzj.gdgm.view.ScoreItemHolder;
+import com.zzj.gdgm.holder.ScoreItemHolder;
 
 import java.util.ArrayList;
 

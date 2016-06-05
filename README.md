@@ -7,6 +7,9 @@
 #Open Source Projects
 ####[Jsoup](https://github.com/jhy/jsoup)
 ####[OkHttp](https://github.com/square/okhttp)
+#Updates
+* v1.4.0 - 2016/06/05  添加了查询等级考试成绩的功能  
+
 #声明
 该项目所有数据均由本人(Zheng Zejian) 通过非正常手段获取。<br/>
 该项目并没有用于商业目的以及盈利。<br/>
