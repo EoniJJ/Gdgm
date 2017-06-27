@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/book_isbn"
+                android:textSize="16sp"
+                android:textColor="@color/newsTextColor"
+                android:text="@string/book_isbn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"/>
+            <TextView
+                android:id="@+id/tv_book_isbn"
+                android:textSize="16sp"
+                android:textColor="@color/newsTextColor"
+                tools:text="Java实用教程"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/book_isbn"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/book_name"
+                android:textSize="16sp"
+                android:textColor="@color/newsTextColor"
+                android:text="@string/book_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"/>
+            <TextView
+                android:id="@+id/tv_book_name"
+                android:textSize="16sp"
+                android:textColor="@color/newsTextColor"
+                tools:text="Java实用教程"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/book_name"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/book_author"
+                android:textSize="16sp"
+                android:textColor="@color/newsTextColor"
+                android:text="@string/book_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"/>
+            <TextView
+                android:id="@+id/tv_book_author"
+                android:textSize="16sp"
+                android:textColor="@color/newsTextColor"
+                tools:text="Java实用教程"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@id/book_author"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

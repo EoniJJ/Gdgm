@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+
+    <style name="EditTextDrawableLeft">
+        <item name="android:drawablePadding">12dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="educational_host_url">教务网首页</string>
+    <string name="login_url">教务网登陆url</string>
+    <string name="verification_code_url">验证码url</string>
+    <string name="news_url">新闻页%1$d</string>
+    <string name="host">教务网host</string>
+    <string name="library_url">图书馆url</string>
+    <string name="library_home_url">图书馆首页url</string>
+</resources>

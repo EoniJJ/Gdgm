@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/gdgm_titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/defaultPadding">
+
+        <ImageView
+            android:src="@drawable/logo_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_jw"
+            android:layout_gravity="right"/>
+        <EditText
+            android:id="@+id/et_username"
+            style="@style/EditTextDrawableLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:maxLines="1"
+            android:textColorHint="@color/defaultEditTextHintColor"
+            android:hint="@string/et_username_hint"
+            android:background="@drawable/et_default_background"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:drawableLeft="@drawable/dynamic_account" />
+
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/EditTextDrawableLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:maxLines="1"
+            android:textColorHint="@color/defaultEditTextHintColor"
+            android:hint="@string/et_password_hint"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:background="@drawable/et_default_background"
+            android:drawableLeft="@drawable/dynamic_password" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp">
+
+            <EditText
+                android:id="@+id/et_verificationCode"
+                style="@style/EditTextDrawableLeft"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:hint="@string/et_verificationCode_hint"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:layout_toLeftOf="@+id/iv_verificationCode"
+                android:textColorHint="@color/defaultEditTextHintColor"
+                android:background="@drawable/et_default_background"
+                android:drawableLeft="@drawable/dynamic_code" />
+
+            <ImageView
+                android:id="@+id/iv_verificationCode"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:src="@drawable/ic_error"
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@color/defaultButtonColor"
+            android:text="@string/login"
+            android:textColor="@color/defaultButtonTextColor"
+            android:textSize="@dimen/defaultButtonTextSize" />
+    </LinearLayout>
+</LinearLayout>

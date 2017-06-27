@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/defaultBackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/gdgm_titlebar" />
+
+    <TextView
+        android:id="@+id/tv_change_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/dynamic_password"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:text="修改密码"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/tv_grade_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/ic_exam"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:text="等级考试查询"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/tv_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/ic_about"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:text="关于"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/white"
+        android:drawableLeft="@drawable/ic_exit"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:text="注销账号"
+        android:textSize="16sp" />
+
+</LinearLayout>

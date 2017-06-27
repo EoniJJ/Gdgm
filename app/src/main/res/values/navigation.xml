@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mainItemsName">
+        <item>资讯</item>
+        <item>课程表</item>
+        <item>成绩</item>
+        <item>图书馆</item>
+        <item>我</item>
+    </string-array>
+    <integer-array name="mainItemsIcon">
+        <item>@drawable/dynamic_news</item>
+        <item>@drawable/dynamic_course</item>
+        <item>@drawable/dynamic_grade</item>
+        <item>@drawable/dynamic_library</item>
+        <item>@drawable/dynamic_more</item>
+    </integer-array>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Spinner
+        android:id="@+id/sp_library"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"></Spinner>
+
+    <EditText
+        android:id="@+id/et_library"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/btn_search"
+        android:layout_toRightOf="@id/sp_library"
+        android:background="@drawable/et_default_background"
+        android:gravity="center_vertical|right"
+        android:hint="@string/searchHint"
+        android:textSize="@dimen/defaultButtonTextSize"
+        android:maxLines="1"
+        android:layout_marginRight="5dp"/>
+
+
+    <TextView
+        android:id="@+id/btn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/btn_default_background"
+        android:text="@string/search"
+        android:padding="10dp"
+        android:textColor="@color/defaultButtonTextColor"
+        android:textSize="@dimen/defaultButtonTextSize" />
+</RelativeLayout>

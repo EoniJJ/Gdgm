@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="titleBackgroundColor">#42A5F5</color>
+    <color name="defaultButtonColor">#6ab8f4</color>
+    <color name="titleColor" >#FFFFFF</color>
+    <color name="defaultButtonTextColor">#FFFFFF</color>
+    <color name="defaultEditTextBackgroundFocus">#42A5F5</color>
+    <color name="defaultEditTextBackground">#8a8a8a</color>
+    <color name="defaultEditTextHintColor">#888888</color>
+    <color name="tabTextSelectColor">#6ab8f4</color>
+    <color name="tabBackground">#ececec</color>
+    <color name="newsTextColor">#333333</color>
+    <color name="courseHeaderBackground">#eff9f8</color>
+    <color name="courseTextColor">#4c5a65</color>
+    <color name="courseDetailTextColor">#212121</color>
+    <color name="defaultBackground">#eeeeee</color>
+    <color name="courseCanvasBackground">#fbfbfc</color>
+    <color name="courseBackground1">#80ef9ea0</color>
+    <color name="courseBackground2">#8098d262</color>
+    <color name="courseBackground3">#80f4c873</color>
+    <color name="courseBackground4">#80e395b4</color>
+    <color name="courseBackground5">#808daae1</color>
+    <color name="courseBackground6">#8075b7a0</color>
+    <color name="courseBackground7">#8065c0e6</color>
+
+</resources>

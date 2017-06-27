@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_course_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/courseHeaderBackground">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/courseTextColor"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:text="@string/days" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/courseTextColor"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:text="@string/monday" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/courseTextColor"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:text="@string/tuesday" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/courseTextColor"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:text="@string/tuesday" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/courseTextColor"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:text="@string/thursday" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/courseTextColor"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:text="@string/friday" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/courseTextColor"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:text="@string/saturday" />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/courseTextColor"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="12sp"
+        android:text="@string/sunday" />
+
+</LinearLayout>

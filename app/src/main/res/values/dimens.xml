@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="defaultPadding">12dp</dimen>
+    <dimen name="defaultButtonTextSize">16sp</dimen>
+    <dimen name="courseItemHeight">70dp</dimen>
+</resources>
