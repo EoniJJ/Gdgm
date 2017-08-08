@@ -6,7 +6,9 @@
 
 # 实现原理
 实现原理请参考我的这两篇博客
+
 [手把手带你打造一个教务系统客户端](http://www.jianshu.com/p/b561b91edad8)
+
 [Android利用Jsoup抓取数据，再也不怕写App没有数据啦](http://www.jianshu.com/p/b7ee086e6eae)
 
 # 如何快速替换为自己学校的教务系统
