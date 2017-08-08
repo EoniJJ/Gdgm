@@ -5,7 +5,9 @@
 <img src="https://github.com/EoniJJ/Gdgm/blob/jw_demo/photo1.jpg" width = "300" height = "512"/><img src="https://github.com/EoniJJ/Gdgm/blob/jw_demo/photo2.jpg" width = "300" height = "512"/><img src="https://github.com/EoniJJ/Gdgm/blob/jw_demo/photo3.jpg" width = "300" height = "512"/><img src="https://github.com/EoniJJ/Gdgm/blob/jw_demo/photo4.jpg" width = "300" height = "512"/><img src="https://github.com/EoniJJ/Gdgm/blob/jw_demo/photo5.jpg" width = "300" height = "512"/><img src="https://github.com/EoniJJ/Gdgm/blob/jw_demo/photo6.jpg" width = "300" height = "512"/>
 
 # 实现原理
-实现原理请参考我的这篇[博客](http://www.jianshu.com/p/b7ee086e6eae)
+实现原理请参考我的这两篇博客
+[手把手带你打造一个教务系统客户端](http://www.jianshu.com/p/b561b91edad8)
+[Android利用Jsoup抓取数据，再也不怕写App没有数据啦](http://www.jianshu.com/p/b7ee086e6eae)
 
 # 如何快速替换为自己学校的教务系统
 如果你的学校教务系统也是采用**正方教务系统**，那么比较简单，步骤如下：
